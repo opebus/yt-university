@@ -15,11 +15,16 @@ volume = Volume.from_name("yt-university-cache", create_if_missing=True)
 def download_model_to_folder():
     from huggingface_hub import snapshot_download
 
+    # resolves https://github.com/huggingface/transformers/issues/20428
+    from transformers.utils.hub import move_cache
+
     snapshot_download(
         BASE_MODEL,
         local_dir=MODEL_DIR,
         ignore_patterns=["*.pt", "*.bin"],  # Using safetensors
     )
+
+    move_cache()
 
 
 image = (
@@ -67,6 +72,7 @@ class Whisper:
         start = time.monotonic_ns()
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
+        logger.info(f"Running on {device}")
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
 
         model = AutoModelForSpeechSeq2Seq.from_pretrained(
@@ -74,7 +80,9 @@ class Whisper:
             torch_dtype=torch_dtype,
             use_safetensors=True,
             attn_implementation="flash_attention_2",
-        ).to(device)
+        )
+
+        model.to(device)
 
         processor = AutoProcessor.from_pretrained(MODEL_DIR)
 
@@ -141,18 +149,14 @@ def transcribe(
     import json
 
     segment_gen = split_silences(str(audio_filepath))
-    output_text = ""
     output_segments = []
 
     f = Function.lookup("yt-university", "Whisper.transcribe_segment")
     for result in f.starmap(segment_gen, kwargs=dict(audio_filepath=audio_filepath)):
-        output_text += result["text"]
-        for chunk in result["chunks"]:
-            output_segments.append(chunk["timestamp"])
+        output_segments.extend(result["chunks"])
 
     result = {
-        "text": output_text,
-        "segments": output_segments,
+        "chunks": output_segments,
         "language": "en",
     }
 
