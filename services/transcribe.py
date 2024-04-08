@@ -94,7 +94,7 @@ class Whisper:
             max_new_tokens=128,
             torch_dtype=torch_dtype,
             device=device,
-            chunk_length_s=30,
+            chunk_length_s=120, # not sure how we can tune this to be more optimal (facing chunks where ending timestamp is None)
             batch_size=16,
             return_timestamps=True,
             model_kwargs={"attn_implementation": "flash_attention_2"},
@@ -144,7 +144,6 @@ class Whisper:
 )
 def transcribe(
     audio_filepath: Path,
-    id: str,
 ):
     segment_gen = split_silences(str(audio_filepath))
     output_segments = []
