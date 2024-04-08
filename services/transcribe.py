@@ -94,7 +94,7 @@ class Whisper:
             max_new_tokens=128,
             torch_dtype=torch_dtype,
             device=device,
-            chunk_length_s=120, # not sure how we can tune this to be more optimal (facing chunks where ending timestamp is None)
+            chunk_length_s=30,
             batch_size=16,
             return_timestamps=True,
             model_kwargs={"attn_implementation": "flash_attention_2"},
@@ -130,7 +130,11 @@ class Whisper:
             for segment in result["chunks"]:
                 restored_timestamp = (
                     segment["timestamp"][0] + start,
-                    segment["timestamp"][1] + start,
+                    # Fix for error faced
+                    # Whisper did not predict an ending timestamp, which can happen if audio is cut off in the middle of a word. Also make sure WhisperTimeStampLogitsProcessor was used during generation.
+                    segment["timestamp"][1] + start
+                    if segment["timestamp"][1] is not None
+                    else None,
                 )
                 segment["timestamp"] = restored_timestamp
 
