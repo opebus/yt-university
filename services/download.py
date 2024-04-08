@@ -22,34 +22,39 @@ logger = logging.getLogger(__name__)
 )
 class Downloader:
     @method()
-    def run(self, url):
-        video_path = self.get_youtube(url)
+    def run(self, url, output_dir):
+        video_path = self.get_youtube(output_dir, url)
         wav_path = self.convert_to_wav(video_path)
         return wav_path
 
-    def get_youtube(self, video_url):
+    def get_youtube(self, output_dir, video_url):
         """
         Downloads the audio from a YouTube video and saves metadata to a .info.json file.
         """
-
-        import json
-
         import yt_dlp
 
-        ydl_opts = {"format": "bestaudio[ext=m4a]"}
+        ydl_opts = {
+            "format": "bestaudio[ext=m4a]",
+            "writethumbnail": True,
+            "outtmpl": f"{DATA_DIR}{output_dir}%(id)s.%(ext)s",
+        }
+
+        meta_dict = {}
+        required_keys_list = ["id", "title", "description", "webpage_url"]
+        optional_keys_list = ["duration", "thumbnail", "tags", "language"]
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
-            info["title"] = info["title"].replace("$", "").replace("|", "-")
-            abs_video_path = ydl.prepare_filename(info)
-
-            with open(abs_video_path.replace("m4a", "info.json"), "w") as outfile:
-                json.dump(info, outfile, indent=2)
-
+            meta_dict = {key: info.get(key, "") for key in required_keys_list}
+            for optional_key in optional_keys_list:
+                if optional_key in info:
+                    meta_dict.update({optional_key: info.get(optional_key)})
+            logger.info(meta_dict)
             ydl.process_info(info)
 
-        logger.info(f"Success download {video_url} to {abs_video_path}")
-        return abs_video_path
+        video_path = f"{DATA_DIR}{output_dir}{info['id']}.{info['ext']}"
+        logger.info(f"Successfully downloaded {video_url} to {video_path}")
+        return video_path
 
     def convert_to_wav(self, video_file_path, offset=0):
         """
@@ -60,7 +65,7 @@ class Downloader:
         if not os.path.exists(video_file_path):
             raise FileNotFoundError("m4a file not found.")
 
-        out_path = DATA_DIR + video_file_path.replace("m4a", "wav")
+        out_path = video_file_path.replace("m4a", "wav")
         if os.path.exists(out_path):
             logger.info(f"WAV file already exists: {out_path}")
             return out_path
