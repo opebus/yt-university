@@ -144,10 +144,8 @@ class Whisper:
 )
 def transcribe(
     audio_filepath: Path,
-    result_path: Path,
+    id: str,
 ):
-    import json
-
     segment_gen = split_silences(str(audio_filepath))
     output_segments = []
 
@@ -155,15 +153,10 @@ def transcribe(
     for result in f.starmap(segment_gen, kwargs=dict(audio_filepath=audio_filepath)):
         output_segments.extend(result["chunks"])
 
-    result = {
+    return {
         "chunks": output_segments,
         "language": "en",
     }
-
-    logger.info(f"Writing whisper transcription to {result_path}")
-    with open(DATA_DIR + result_path, "w") as f:
-        json.dump(result, f, indent=4)
-    volume.commit()
 
 
 def split_silences(

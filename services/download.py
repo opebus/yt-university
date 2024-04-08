@@ -22,12 +22,12 @@ logger = logging.getLogger(__name__)
 )
 class Downloader:
     @method()
-    def run(self, url, output_dir):
-        video_path = self.get_youtube(output_dir, url)
+    def run(self, url, id):
+        video_path, thumbnail_path, meta_dict = self.get_youtube(id, url)
         wav_path = self.convert_to_wav(video_path)
-        return wav_path
+        return wav_path, thumbnail_path, meta_dict
 
-    def get_youtube(self, output_dir, video_url):
+    def get_youtube(self, id, video_url):
         """
         Downloads the audio from a YouTube video and saves metadata to a .info.json file.
         """
@@ -36,7 +36,7 @@ class Downloader:
         ydl_opts = {
             "format": "bestaudio[ext=m4a]",
             "writethumbnail": True,
-            "outtmpl": f"{DATA_DIR}{output_dir}%(id)s.%(ext)s",
+            "outtmpl": f"{DATA_DIR}{id}.%(ext)s",
         }
 
         meta_dict = {}
@@ -52,9 +52,11 @@ class Downloader:
             logger.info(meta_dict)
             ydl.process_info(info)
 
-        video_path = f"{DATA_DIR}{output_dir}{info['id']}.{info['ext']}"
+        video_path = f"{DATA_DIR}{id}.{info['ext']}"
+        thumbnail_path = f"{DATA_DIR}{id}.webp"
         logger.info(f"Successfully downloaded {video_url} to {video_path}")
-        return video_path
+
+        return video_path, thumbnail_path, meta_dict
 
     def convert_to_wav(self, video_file_path, offset=0):
         """
