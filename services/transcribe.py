@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Iterator, Tuple
 
-from modal import Function, Image, Volume, enter, method
+from modal import Image, Volume, enter, method
 
 from yt_university.config import DATA_DIR, MODEL_DIR, get_logger
 from yt_university.stub import stub
@@ -14,8 +14,6 @@ volume = Volume.from_name("yt-university-cache", create_if_missing=True)
 
 def download_model_to_folder():
     from huggingface_hub import snapshot_download
-
-    # resolves https://github.com/huggingface/transformers/issues/20428
     from transformers.utils.hub import move_cache
 
     snapshot_download(
@@ -152,8 +150,10 @@ def transcribe(
     segment_gen = split_silences(str(audio_filepath))
     output_segments = []
 
-    f = Function.lookup("yt-university", "Whisper.transcribe_segment")
-    for result in f.starmap(segment_gen, kwargs=dict(audio_filepath=audio_filepath)):
+    whisper = Whisper()
+    for result in whisper.transcribe_segment.starmap(
+        segment_gen, kwargs=dict(audio_filepath=audio_filepath)
+    ):
         output_segments.extend(result["chunks"])
 
     return {

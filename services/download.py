@@ -54,7 +54,9 @@ class Downloader:
 
         video_path = f"{DATA_DIR}{id}.{info['ext']}"
         thumbnail_path = f"{DATA_DIR}{id}.webp"
+
         logger.info(f"Successfully downloaded {video_url} to {video_path}")
+        volume.commit()
 
         return video_path, thumbnail_path, meta_dict
 
@@ -79,4 +81,5 @@ class Downloader:
 
         logger.info(f"Conversion to WAV ready: {out_path}")
         volume.commit()
+
         return out_path
