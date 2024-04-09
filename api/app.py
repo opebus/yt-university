@@ -13,7 +13,7 @@ MAX_JOB_AGE_SECS = 10 * 60
 
 @web_app.post("/api/transcribe")
 async def transcribe_job(
-    video_url: str = Query(..., description="The URL of the video to transcribe")
+    video_url: str = Query(..., description="The URL of the video to transcribe"),
 ):
     print(video_url)
 

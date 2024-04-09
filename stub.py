@@ -2,6 +2,7 @@ from modal import Stub, asgi_app
 
 stub = Stub("yt-university")
 
+
 @stub.function(allow_concurrent_inputs=4)
 @asgi_app()
 def app():

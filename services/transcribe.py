@@ -95,7 +95,7 @@ class Whisper:
             torch_dtype=torch_dtype,
             device=device,
             chunk_length_s=30,
-            batch_size=16,
+            batch_size=24,
             return_timestamps=True,
             model_kwargs={"attn_implementation": "flash_attention_2"},
         )
