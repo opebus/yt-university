@@ -3,9 +3,26 @@ import time
 import yt_university.config as config
 from fastapi import FastAPI, Query
 from yt_university.services.shared import process
+from contextlib import asynccontextmanager
 
 logger = config.get_logger(__name__)
-web_app = FastAPI()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Function that handles startup and shutdown events.
+    To understand more, read https://fastapi.tiangolo.com/advanced/events/
+    """
+    from yt_university.database import sessionmanager
+
+    yield
+    if sessionmanager._engine is not None:
+        # Close the DB connection
+        await sessionmanager.close()
+
+
+web_app = FastAPI(lifespan=lifespan)
 
 # A transcription taking > 10 minutes should be exceedingly rare.
 MAX_JOB_AGE_SECS = 10 * 60
@@ -15,8 +32,6 @@ MAX_JOB_AGE_SECS = 10 * 60
 async def transcribe_job(
     video_url: str = Query(..., description="The URL of the video to transcribe"),
 ):
-    print(video_url)
-
     now = int(time.time())
     try:
         # query database to get job

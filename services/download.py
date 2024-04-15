@@ -40,8 +40,8 @@ class Downloader:
         }
 
         meta_dict = {}
-        required_keys_list = ["id", "title", "description", "webpage_url"]
-        optional_keys_list = ["duration", "thumbnail", "tags", "language"]
+        required_keys_list = ["id", "title", "description"]
+        optional_keys_list = ["duration", "language"]
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)

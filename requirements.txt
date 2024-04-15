@@ -2,3 +2,5 @@ fastapi
 yt_dlp
 modal
 pre-commit
+alembic
+psycopg2
