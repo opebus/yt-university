@@ -1,14 +1,14 @@
-import os
 import contextlib
+import os
 from typing import Any, AsyncIterator
 
+from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
-from dotenv import load_dotenv
 
 load_dotenv()
 # Heavily inspired by https://praciano.com.br/fastapi-and-async-sqlalchemy-20-with-pytest-done-right.html

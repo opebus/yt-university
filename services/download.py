@@ -22,16 +22,20 @@ logger = logging.getLogger(__name__)
 )
 class Downloader:
     @method()
-    def run(self, url, id):
-        video_path, thumbnail_path, meta_dict = self.get_youtube(id, url)
+    def run(self, url):
+        video_path, thumbnail_path, meta_dict = self.get_youtube(url)
         wav_path = self.convert_to_wav(video_path)
         return wav_path, thumbnail_path, meta_dict
 
-    def get_youtube(self, id, video_url):
+    def get_youtube(self, video_url):
         """
         Downloads the audio from a YouTube video and saves metadata to a .info.json file.
         """
+        import uuid
+
         import yt_dlp
+
+        id = uuid.uuid4()
 
         ydl_opts = {
             "format": "bestaudio[ext=m4a]",

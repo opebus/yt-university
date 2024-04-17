@@ -1,22 +1,17 @@
-import os
-import sys
-
-
 import asyncio
 import os
-from logging.config import fileConfig
-
 import sys
+from logging.config import fileConfig
 
 sys.path.append(os.getcwd())
 
+from dotenv import load_dotenv
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 from models import AlchemyBase
-from dotenv import load_dotenv
 
 load_dotenv()
 

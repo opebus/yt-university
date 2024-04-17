@@ -1,11 +1,14 @@
-from sqlalchemy import Column
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.dialects.postgresql import (
-    UUID,
-    JSON,
-)  # Importing for more specific types
-from . import AlchemyBase, MetadataMixin
 from uuid import uuid4
+
+from sqlalchemy import Column
+from sqlalchemy.dialects.postgresql import (
+    JSON,
+    UUID,
+)
+from sqlalchemy.orm import Mapped, mapped_column
+
+# Importing for more specific types
+from . import AlchemyBase, MetadataMixin
 
 
 class Video(AlchemyBase, MetadataMixin):
