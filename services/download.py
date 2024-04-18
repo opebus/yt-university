@@ -1,6 +1,6 @@
 import logging
 
-from modal import Image, Volume, method, stub
+from modal import Image, Volume, method
 
 from yt_university.config import DATA_DIR
 from yt_university.stub import stub
@@ -31,33 +31,34 @@ class Downloader:
         """
         Downloads the audio from a YouTube video and saves metadata to a .info.json file.
         """
-        import uuid
-
         import yt_dlp
-
-        id = uuid.uuid4()
 
         ydl_opts = {
             "format": "bestaudio[ext=m4a]",
             "writethumbnail": True,
-            "outtmpl": f"{DATA_DIR}{id}.%(ext)s",
+            "outtmpl": f"{DATA_DIR}%(id)s.%(ext)s",
         }
 
         meta_dict = {}
-        required_keys_list = ["id", "title", "description"]
-        optional_keys_list = ["duration", "language"]
+        metadata_keys = [
+            "id",
+            "title",
+            "description",
+            "channel",
+            "channel_id",
+            "date",
+            "duration",
+            "language",
+        ]
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
-            meta_dict = {key: info.get(key, "") for key in required_keys_list}
-            for optional_key in optional_keys_list:
-                if optional_key in info:
-                    meta_dict.update({optional_key: info.get(optional_key)})
+            meta_dict = {key: info.get(key, "") for key in metadata_keys}
             logger.info(meta_dict)
             ydl.process_info(info)
 
-        video_path = f"{DATA_DIR}{id}.{info['ext']}"
-        thumbnail_path = f"{DATA_DIR}{id}.webp"
+        video_path = f"{DATA_DIR}{meta_dict['id']}.{info['ext']}"
+        thumbnail_path = f"{DATA_DIR}{meta_dict['id']}.webp"
 
         logger.info(f"Successfully downloaded {video_url} to {video_path}")
         volume.commit()

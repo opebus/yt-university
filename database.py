@@ -5,15 +5,12 @@ import os
 from collections.abc import AsyncIterator
 from typing import Any
 
-from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
-
-load_dotenv()
 
 
 class DatabaseSessionManager:

@@ -1,16 +1,15 @@
 import time
 from contextlib import asynccontextmanager
 from typing import NamedTuple
+from urllib.parse import parse_qs, urlparse
 
 import yt_university.config as config
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from yt_university.config import MAX_JOB_AGE_SECS
-from yt_university.crud.video import get_all_videos, get_video_by_url, update_video
-from yt_university.database import get_db_session
-from yt_university.helper import sanitize_youtube_url
-from yt_university.services import summarize
+from yt_university.crud.video import get_all_videos, get_video, update_video
 from yt_university.services.process import process
+from yt_university.services.summarize import summarize
 from yt_university.stub import in_progress
 
 logger = config.get_logger(__name__)
@@ -44,16 +43,22 @@ web_app.add_middleware(
 class InProgressJob(NamedTuple):
     call_id: str
     start_time: int
+    status: str
 
 
 @web_app.post("/api/process")
 async def process_workflow(
     video_url: str = Query(..., description="The URL of the video to transcribe"),
 ):
-    try:
-        sanitized_url = sanitize_youtube_url(video_url)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    from yt_university.database import get_db_session
+
+    session = await anext(get_db_session())
+    # defensive programming
+    parsed = urlparse(video_url)
+    id = parse_qs(parsed.query)["v"][0]
+
+    ## assume only youtube videos
+    sanitized_url = "https://www.youtube.com/watch?v=" + id
 
     now = int(time.time())
     try:
@@ -70,7 +75,7 @@ async def process_workflow(
     except KeyError:
         pass
 
-    video = await get_video_by_url(video_url)
+    video = await get_video(session, id)
     if video:
         raise HTTPException(status_code=400, detail="Video already processed")
     call = process.spawn(sanitized_url)
@@ -83,11 +88,12 @@ async def process_workflow(
     return {"call_id": call.object_id}
 
 
-@web_app.get("/api/summarize/{video_id}")
-async def get_transcription(
-    video_id: str,
-    session=Depends(get_db_session),
-):
+@web_app.post("/api/summarize/{video_id}")
+async def invoke_transcription(video_id: str):
+    from yt_university.database import get_db_session
+
+    session = await anext(get_db_session())
+
     video = await get_video(session, video_id)
 
     if not video:
@@ -100,7 +106,7 @@ async def get_transcription(
     summary = summarize.spawn(video.transcription).get()
     video_data = await update_video(session, video.id, {"summary": summary})
 
-    return video_data
+    return {id: video_data.id, "summary": video_data.summary}
 
 
 @web_app.get("/api/status/{call_id}")
@@ -154,45 +160,34 @@ async def poll_status(call_id: str):
 
 @web_app.get("/api/videos")
 async def get_videos(
-    session=Depends(get_db_session),
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1),
 ):
+    from yt_university.database import get_db_session
+
+    session = await anext(get_db_session())
+
     video = await get_all_videos(session, page, page_size)
     return video
 
 
-@web_app.get("/api/videos")
-async def get_video(
-    video_id: str = Query(None, description="The ID of the video"),
-    video_url: str = Query(None, description="The URL of the video"),
-    session=Depends(get_db_session),
+@web_app.get("/api/video")
+async def get_individual_video(
+    video_id: str = Query(
+        ..., description="The ID of the video"
+    ),  # Use ellipsis to make it a required field
 ):
     """
-    Fetch a video by its ID or URL. Specify either video_id or video_url.
+    Fetch a video by its ID.
     """
-    if video_id and video_url:
-        raise HTTPException(
-            status_code=400,
-            detail="Please specify either video_id or video_url, not both.",
-        )
+    from yt_university.database import get_db_session
 
-    if video_id:
-        video = await get_video(session, video_id)
-        if not video:
-            raise HTTPException(status_code=404, detail="Video not found by ID")
-        return video
+    session = await anext(get_db_session())
 
-    if video_url:
-        try:
-            sanitized_url = sanitize_youtube_url(video_url)
-            video = await get_video_by_url(session, sanitized_url)
-        except ValueError as e:
-            raise HTTPException(status_code=400, detail=str(e))
-        if not video:
-            raise HTTPException(status_code=404, detail="Video not found by URL")
-        return video
+    video = await get_video(session, video_id)
 
-    raise HTTPException(
-        status_code=400, detail="Please specify either video_id or video_url"
-    )
+    # Check if the video was found
+    if not video:
+        raise HTTPException(status_code=404, detail="Video not found")
+
+    return video

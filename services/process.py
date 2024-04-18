@@ -44,11 +44,15 @@ async def process(video_url):
 
     session = await anext(get_db_session())
     video = Video(
+        id=metadata["id"],
         url=video_url,
         title=metadata["title"],
         description=metadata["description"],
         duration=metadata["duration"],
         language=metadata["language"],
+        channel=metadata["channel"],
+        channel_id=metadata["channel_id"],
+        uploaded_at=metadata["upload_date"],
     )
 
     with open(audio_path, "rb") as f:
