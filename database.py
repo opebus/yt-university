@@ -1,6 +1,9 @@
+# Heavily inspired by https://praciano.com.br/fastapi-and-async-sqlalchemy-20-with-pytest-done-right.html
+
 import contextlib
 import os
-from typing import Any, AsyncIterator
+from collections.abc import AsyncIterator
+from typing import Any
 
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import (
@@ -11,7 +14,6 @@ from sqlalchemy.ext.asyncio import (
 )
 
 load_dotenv()
-# Heavily inspired by https://praciano.com.br/fastapi-and-async-sqlalchemy-20-with-pytest-done-right.html
 
 
 class DatabaseSessionManager:
@@ -54,7 +56,9 @@ class DatabaseSessionManager:
             await session.close()
 
 
-sessionmanager = DatabaseSessionManager(os.getenv("DATABASE_URL"))
+sessionmanager = DatabaseSessionManager(
+    os.getenv("DATABASE_URL", "postgresql+asyncpg://xxx:xxx@xxx:5432/xxx")
+)
 
 
 async def get_db_session():

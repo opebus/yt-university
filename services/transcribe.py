@@ -1,5 +1,5 @@
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator, Tuple
 
 from modal import Image, Volume, enter, method
 
@@ -165,7 +165,7 @@ def transcribe(
 
 def split_silences(
     path: str, min_segment_length: float = 30.0, min_silence_length: float = 1.0
-) -> Iterator[Tuple[float, float]]:
+) -> Iterator[tuple[float, float]]:
     """
     Split audio file into contiguous chunks using the ffmpeg `silencedetect` filter.
     Yields tuples (start, end) of each chunk in seconds.

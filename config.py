@@ -24,3 +24,5 @@ PODCAST_METADATA_DIR = pathlib.Path(DATA_DIR, "podcast_metadata")
 TRANSCRIPTIONS_DIR = pathlib.Path(DATA_DIR, "transcriptions")
 # Searching indexing files, refreshed by scheduled functions.
 SEARCH_DIR = pathlib.Path(DATA_DIR, "search")
+
+MAX_JOB_AGE_SECS = 2 * 60

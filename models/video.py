@@ -21,3 +21,4 @@ class Video(AlchemyBase, MetadataMixin):
     duration: Mapped[int] = mapped_column(nullable=True)
     language: Mapped[str] = mapped_column(nullable=True)
     transcription: Mapped[JSON] = mapped_column(type_=JSON, nullable=True)
+    summary: Mapped[str] = mapped_column(nullable=True)

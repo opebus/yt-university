@@ -5,8 +5,11 @@ from typing import NamedTuple
 import yt_university.config as config
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from yt_university.config import MAX_JOB_AGE_SECS
+from yt_university.crud.video import get_all_videos, get_video_by_url, update_video
 from yt_university.database import get_db_session
-from yt_university.models.video import Video
+from yt_university.helper import sanitize_youtube_url
+from yt_university.services import summarize
 from yt_university.services.process import process
 from yt_university.stub import in_progress
 
@@ -37,38 +40,67 @@ web_app.add_middleware(
     allow_headers=["*"],
 )
 
-MAX_JOB_AGE_SECS = 2 * 60
-
 
 class InProgressJob(NamedTuple):
     call_id: str
     start_time: int
 
 
-@web_app.post("/api/transcribe")
-async def transcribe_job(
+@web_app.post("/api/process")
+async def process_workflow(
     video_url: str = Query(..., description="The URL of the video to transcribe"),
 ):
+    try:
+        sanitized_url = sanitize_youtube_url(video_url)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
     now = int(time.time())
     try:
-        inprogress_job = in_progress[video_url]
+        inprogress_job = in_progress[sanitized_url]
         if (
             isinstance(inprogress_job, InProgressJob)
             and (now - inprogress_job.start_time) < MAX_JOB_AGE_SECS
         ):
             existing_call_id = inprogress_job.call_id
             logger.info(
-                f"Found existing, unexpired call ID {existing_call_id} for video {video_url}"
+                f"Found existing, unexpired call ID {existing_call_id} for video {sanitized_url}"
             )
             return {"call_id": existing_call_id}
     except KeyError:
         pass
-    call = process.spawn(video_url)
 
-    in_progress[video_url] = InProgressJob(call_id=call.object_id, start_time=now)
+    video = await get_video_by_url(video_url)
+    if video:
+        raise HTTPException(status_code=400, detail="Video already processed")
+    call = process.spawn(sanitized_url)
+
+    in_progress[sanitized_url] = InProgressJob(
+        call_id=call.object_id, start_time=now, status="init"
+    )
 
     logger.info(f"Started new call ID {call.object_id}")
     return {"call_id": call.object_id}
+
+
+@web_app.get("/api/summarize/{video_id}")
+async def get_transcription(
+    video_id: str,
+    session=Depends(get_db_session),
+):
+    video = await get_video(session, video_id)
+
+    if not video:
+        raise HTTPException(status_code=404, detail="Video not found")
+    if not video.transcription:
+        raise HTTPException(
+            status_code=404, detail="Transcription not available for this video"
+        )
+
+    summary = summarize.spawn(video.transcription).get()
+    video_data = await update_video(session, video.id, {"summary": summary})
+
+    return video_data
 
 
 @web_app.get("/api/status/{call_id}")
@@ -77,7 +109,7 @@ async def poll_status(call_id: str):
     from modal.functions import FunctionCall
 
     function_call = FunctionCall.from_id(call_id)
-    graph: List[InputInfo] = function_call.get_call_graph()
+    graph: list[InputInfo] = function_call.get_call_graph()
 
     try:
         function_call.get(timeout=0.1)
@@ -91,55 +123,76 @@ async def poll_status(call_id: str):
                 return dict(error="permission denied on video download")
         return dict(error="unknown job processing error")
 
-    downloaded = False
     try:
-        download_root = graph[0].children[0].children[1]
-        downloaded = download_root.status
-
         map_root = graph[0].children[0].children[0]
     except IndexError:
-        return dict(finished=False, downloaded=downloaded)
+        return dict(stage="init", status="in_progress")
 
-    assert map_root.function_name == "transcribe"
-
-    leaves = map_root.children
-    tasks = len({leaf.task_id for leaf in leaves})
-    done_segments = len([leaf for leaf in leaves if leaf.status == InputStatus.SUCCESS])
-    total_segments = len(leaves)
-    finished = map_root.status == InputStatus.SUCCESS
-
-    return dict(
-        finished=finished,
-        total_segments=total_segments,
-        tasks=tasks,
-        done_segments=done_segments,
-        downloaded=downloaded,
+    status = dict(
+        stage=graph[0].children[0].children[0].function_name,
+        status=InputStatus(map_root.status).name,
     )
 
+    if map_root.function_name == "transcribe":
+        leaves = map_root.children
+        tasks = len({leaf.task_id for leaf in leaves})
+        done_segments = len(
+            [leaf for leaf in leaves if leaf.status == InputStatus.SUCCESS]
+        )
+        total_segments = len(leaves)
 
-@web_app.get("/api/videos/")
+        status["total_segments"] = total_segments
+        status["tasks"] = tasks
+        status["done_segments"] = done_segments
+
+    if map_root.function_name == "summarize" and map_root.status == InputStatus.SUCCESS:
+        status["stage"] = "end"
+        status["status"] = "done"
+
+    return status
+
+
+@web_app.get("/api/videos")
 async def get_videos(
     session=Depends(get_db_session),
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1),
 ):
-    from sqlalchemy.future import select
-
-    # Calculate offset
-    offset = (page - 1) * page_size
-
-    # Apply offset and limit to the query
-    stmt = select(Video).offset(offset).limit(page_size)
-    result = await session.execute(stmt)
-    videos = result.scalars().all()
-    return videos
-
-
-@web_app.get("/api/videos/{video_id}")
-async def read_video(video_id, session=Depends(get_db_session)):
-    from sqlalchemy.future import select
-
-    video = await session.scalars(select(Video).filter(Video.id == video_id).first())
-    if not video:
-        raise HTTPException(status_code=404, detail="Video not found")
+    video = await get_all_videos(session, page, page_size)
     return video
+
+
+@web_app.get("/api/videos")
+async def get_video(
+    video_id: str = Query(None, description="The ID of the video"),
+    video_url: str = Query(None, description="The URL of the video"),
+    session=Depends(get_db_session),
+):
+    """
+    Fetch a video by its ID or URL. Specify either video_id or video_url.
+    """
+    if video_id and video_url:
+        raise HTTPException(
+            status_code=400,
+            detail="Please specify either video_id or video_url, not both.",
+        )
+
+    if video_id:
+        video = await get_video(session, video_id)
+        if not video:
+            raise HTTPException(status_code=404, detail="Video not found by ID")
+        return video
+
+    if video_url:
+        try:
+            sanitized_url = sanitize_youtube_url(video_url)
+            video = await get_video_by_url(session, sanitized_url)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        if not video:
+            raise HTTPException(status_code=404, detail="Video not found by URL")
+        return video
+
+    raise HTTPException(
+        status_code=400, detail="Please specify either video_id or video_url"
+    )
