@@ -120,7 +120,6 @@ async def poll_status(call_id: str):
     except TimeoutError:
         pass
     except Exception as exc:
-        print(exc)
         if exc.args:
             inner_exc = exc.args[0]
             if "HTTPError 403" in inner_exc:
@@ -128,12 +127,13 @@ async def poll_status(call_id: str):
         return dict(error="unknown job processing error")
 
     try:
-        map_root = graph[0].children[0].children[0]
+        main_stub = graph[0].children[0]
+        map_root = main_stub.children[0]
     except IndexError:
         return dict(stage="init", status="in_progress")
 
     status = dict(
-        stage=graph[0].children[0].children[0].function_name,
+        stage=map_root.function_name,
         status=InputStatus(map_root.status).name,
     )
 
@@ -148,10 +148,11 @@ async def poll_status(call_id: str):
         status["total_segments"] = total_segments
         status["tasks"] = tasks
         status["done_segments"] = done_segments
-
-    if map_root.function_name == "summarize" and map_root.status == InputStatus.SUCCESS:
+    elif (
+        map_root.function_name == "summarize" and map_root.status == InputStatus.SUCCESS
+    ) or main_stub.status == InputStatus.SUCCESS:
         status["stage"] = "end"
-        status["status"] = "done"
+        status["status"] = "DONE"
 
     return status
 

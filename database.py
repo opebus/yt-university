@@ -53,11 +53,9 @@ class DatabaseSessionManager:
             await session.close()
 
 
-sessionmanager = DatabaseSessionManager(
-    os.getenv("DATABASE_URL", "postgresql+asyncpg://xxx:xxx@xxx:5432/xxx")
-)
-
-
 async def get_db_session():
+    sessionmanager = DatabaseSessionManager(
+        os.getenv("DATABASE_URL", "postgresql+asyncpg://xxx:xxx@xxx:5432/xxx")
+    )
     async with sessionmanager.session() as session:
         yield session
