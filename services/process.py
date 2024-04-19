@@ -3,7 +3,7 @@ import logging
 from modal import Secret, Volume
 
 from yt_university.config import DATA_DIR
-from yt_university.crud.video import add_video, update_video
+from yt_university.crud.video import upsert_video
 from yt_university.services.download import Downloader
 from yt_university.services.summarize import summarize
 from yt_university.services.transcribe import transcribe
@@ -56,21 +56,39 @@ async def process(video_url):
     )
 
     with open(audio_path, "rb") as f:
-        supabase.storage.from_("audio").upload(file=f, path=audio_path.split("/")[-1])
+        try:
+            supabase.storage.from_("audio").upload(
+                file=f, path=audio_path.split("/")[-1]
+            )
+        except Exception as e:
+            if "The resource already exists" in str(e):
+                supabase.storage.from_("audio").update(
+                    file=f, path=audio_path.split("/")[-1]
+                )
+            else:
+                raise e
     os.remove(audio_path)
 
     with open(thumbnail_path, "rb") as f:
-        supabase.storage.from_("thumbnail").upload(
-            file=f, path=thumbnail_path.split("/")[-1]
-        )
+        try:
+            supabase.storage.from_("thumbnail").upload(
+                file=f, path=thumbnail_path.split("/")[-1]
+            )
+        except Exception as e:
+            if "The resource already exists" in str(e):
+                supabase.storage.from_("thumbnail").update(
+                    file=f, path=thumbnail_path.split("/")[-1]
+                )
+            else:
+                raise e
     os.remove(thumbnail_path)
 
-    video = await add_video(session, video)
+    video = await upsert_video(session, video.id, video.to_dict())
 
     transcription = transcribe.spawn(audio_path).get()
-    video_data = await update_video(session, video.id, {"transcription": transcription})
+    video_data = await upsert_video(session, video.id, {"transcription": transcription})
 
     summary = summarize.spawn(transcription).get()
-    video_data = await update_video(session, video.id, {"summary": summary})
+    video_data = await upsert_video(session, video.id, {"summary": summary})
 
     return video_data

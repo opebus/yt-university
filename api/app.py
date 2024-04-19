@@ -7,7 +7,7 @@ import yt_university.config as config
 from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from yt_university.config import MAX_JOB_AGE_SECS
-from yt_university.crud.video import get_all_videos, get_video, update_video
+from yt_university.crud.video import get_all_videos, get_video, upsert_video
 from yt_university.services.process import process
 from yt_university.services.summarize import summarize
 from yt_university.stub import in_progress
@@ -74,7 +74,7 @@ async def process_workflow(url: str = Body(..., embed=True)):
         pass
 
     video = await get_video(session, id)
-    if video:
+    if video and video.transcription is not None:
         raise HTTPException(status_code=400, detail="Video already processed")
     call = process.spawn(sanitized_url)
 
@@ -102,7 +102,7 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
         )
 
     summary = summarize.spawn(video.transcription).get()
-    video_data = await update_video(session, video.id, {"summary": summary})
+    video_data = await upsert_video(session, video.id, {"summary": summary})
 
     return {id: video_data.id, "summary": video_data.summary}
 

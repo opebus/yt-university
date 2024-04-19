@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from pathlib import Path
 
-from modal import Image, Volume, enter, method
+from modal import Image, Volume, enter, gpu, method
 
 from yt_university.config import DATA_DIR, MODEL_DIR, get_logger
 from yt_university.stub import stub
@@ -26,10 +26,10 @@ def download_model_to_folder():
 
 
 image = (
-    Image.from_registry("nvidia/cuda:12.1.1-devel-ubuntu22.04", add_python="3.11")
+    Image.from_registry("nvidia/cuda:12.1.1-devel-ubuntu20.04", add_python="3.11")
     .apt_install("git", "ffmpeg")
     .pip_install(
-        "transformers",
+        "transformers==4.39.3",
         "huggingface-hub",
         "hf-transfer",
         "torch",
@@ -39,14 +39,16 @@ image = (
         "packaging",
         "ninja",
     )
-    .run_commands("python -m pip install flash-attn --no-build-isolation", gpu="A10G")
+    .run_commands(
+        "python -m pip install flash-attn --no-build-isolation", gpu=gpu.A10G()
+    )
     .env({"HF_HUB_ENABLE_HF_TRANSFER": "1"})
-    .run_function(download_model_to_folder, timeout=60 * 20)
+    .run_function(download_model_to_folder)
 )
 
 
 @stub.cls(
-    timeout=60 * 10,
+    timeout=60 * 5,
     container_idle_timeout=60,
     allow_concurrent_inputs=2,
     gpu="A10G",
