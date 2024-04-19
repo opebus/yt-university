@@ -1,4 +1,6 @@
-fastapi
-yt_dlp
 modal
 pre-commit
+ruff
+python-dotenv
+sqlalchemy
+asyncpg

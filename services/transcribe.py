@@ -1,5 +1,5 @@
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator, Tuple
 
 from modal import Image, Volume, enter, method
 
@@ -70,6 +70,7 @@ class Whisper:
         start = time.monotonic_ns()
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
+        device_int = 0 if device == "cuda" else -1
         logger.info(f"Running on {device}")
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
 
@@ -91,11 +92,11 @@ class Whisper:
             feature_extractor=processor.feature_extractor,
             max_new_tokens=128,
             torch_dtype=torch_dtype,
-            device=device,
             chunk_length_s=30,
             batch_size=24,
             return_timestamps=True,
             model_kwargs={"attn_implementation": "flash_attention_2"},
+            device=device_int,
         )
 
         duration_s = (time.monotonic_ns() - start) / 1e9
@@ -164,7 +165,7 @@ def transcribe(
 
 def split_silences(
     path: str, min_segment_length: float = 30.0, min_silence_length: float = 1.0
-) -> Iterator[Tuple[float, float]]:
+) -> Iterator[tuple[float, float]]:
     """
     Split audio file into contiguous chunks using the ffmpeg `silencedetect` filter.
     Yields tuples (start, end) of each chunk in seconds.
