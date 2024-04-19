@@ -4,7 +4,7 @@ from typing import NamedTuple
 from urllib.parse import parse_qs, urlparse
 
 import yt_university.config as config
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from yt_university.config import MAX_JOB_AGE_SECS
 from yt_university.crud.video import get_all_videos, get_video, update_video
@@ -47,14 +47,12 @@ class InProgressJob(NamedTuple):
 
 
 @web_app.post("/api/process")
-async def process_workflow(
-    video_url: str = Query(..., description="The URL of the video to transcribe"),
-):
+async def process_workflow(url: int = Body(..., embed=True)):
     from yt_university.database import get_db_session
 
     session = await anext(get_db_session())
     # defensive programming
-    parsed = urlparse(video_url)
+    parsed = urlparse(url)
     id = parse_qs(parsed.query)["v"][0]
 
     ## assume only youtube videos
@@ -88,13 +86,13 @@ async def process_workflow(
     return {"call_id": call.object_id}
 
 
-@web_app.post("/api/summarize/{video_id}")
-async def invoke_transcription(video_id: str):
+@web_app.post("/api/summarize/{id}")
+async def invoke_transcription(id: str):
     from yt_university.database import get_db_session
 
     session = await anext(get_db_session())
 
-    video = await get_video(session, video_id)
+    video = await get_video(session, id)
 
     if not video:
         raise HTTPException(status_code=404, detail="Video not found")
@@ -173,7 +171,7 @@ async def get_videos(
 
 @web_app.get("/api/video")
 async def get_individual_video(
-    video_id: str = Query(
+    id: str = Query(
         ..., description="The ID of the video"
     ),  # Use ellipsis to make it a required field
 ):
@@ -184,7 +182,7 @@ async def get_individual_video(
 
     session = await anext(get_db_session())
 
-    video = await get_video(session, video_id)
+    video = await get_video(session, id)
 
     # Check if the video was found
     if not video:
