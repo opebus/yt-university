@@ -53,6 +53,7 @@ async def process(video_url):
         channel=metadata["channel"],
         channel_id=metadata["channel_id"],
         uploaded_at=metadata["upload_date"],
+        thumbnail=metadata["thumbnail"],
     )
 
     with open(audio_path, "rb") as f:

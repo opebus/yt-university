@@ -50,6 +50,7 @@ class Downloader:
             "duration",
             "language",
             "upload_date",
+            "thumbnail",
         ]
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:

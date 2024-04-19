@@ -19,6 +19,7 @@ class Video(AlchemyBase, MetadataMixin):
     channel_id: Mapped[str] = mapped_column(nullable=True)
     uploaded_at: Mapped[str] = mapped_column(nullable=True)
     description: Mapped[str] = mapped_column(nullable=True)
+    thumbnail: Mapped[str] = mapped_column(nullable=True)
     duration: Mapped[int] = mapped_column(nullable=True)
     language: Mapped[str] = mapped_column(nullable=True)
     transcription: Mapped[JSON] = mapped_column(type_=JSON, nullable=True)
