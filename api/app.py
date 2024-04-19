@@ -47,7 +47,7 @@ class InProgressJob(NamedTuple):
 
 
 @web_app.post("/api/process")
-async def process_workflow(url: int = Body(..., embed=True)):
+async def process_workflow(url: str = Body(..., embed=True)):
     from yt_university.database import get_db_session
 
     session = await anext(get_db_session())
@@ -86,8 +86,8 @@ async def process_workflow(url: int = Body(..., embed=True)):
     return {"call_id": call.object_id}
 
 
-@web_app.post("/api/summarize/{id}")
-async def invoke_transcription(id: str):
+@web_app.post("/api/summarize")
+async def invoke_transcription(id: str = Body(..., embed=True)):
     from yt_university.database import get_db_session
 
     session = await anext(get_db_session())
