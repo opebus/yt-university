@@ -140,7 +140,9 @@ class Whisper:
             # Adjust timestamps to original audio timeline
             for segment in result["chunks"]:
                 restored_timestamp = (
-                    segment["timestamp"][0] + start,
+                    segment["timestamp"][0] + start
+                    if segment["timestamp"][0] is not None
+                    else None,
                     # Fix for error faced
                     # Whisper did not predict an ending timestamp, which can happen if audio is cut off in the middle of a word. Also make sure WhisperTimeStampLogitsProcessor was used during generation.
                     segment["timestamp"][1] + start
