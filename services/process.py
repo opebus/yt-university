@@ -15,7 +15,7 @@ volume = Volume.from_name("yt-university-cache", create_if_missing=True)
 
 
 @stub.function(
-    container_idle_timeout=60,
+    container_idle_timeout=5,
     image=shared_webapp_image,
     timeout=600,
     secrets=[Secret.from_name("university")],

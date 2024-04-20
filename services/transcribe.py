@@ -54,6 +54,8 @@ image = (
     container_idle_timeout=5,
     allow_concurrent_inputs=1,
     # using gpu throw index out of bound error from CUDA - unresolved yet
+    # on a 2h50m video, T4 cost $0.27 versus A10G at $0.33
+    # using T4
     gpu=gpu.A10G(),
     # cpu=2,
     image=image,

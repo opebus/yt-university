@@ -37,7 +37,9 @@ def create_prompt(text: str) -> str:
     """
 
 
-@stub.function(image=image, secrets=[Secret.from_name("university")])
+@stub.function(
+    image=image, secrets=[Secret.from_name("university")], container_idle_timeout=5
+)
 def summarize(text: str):
     """
     Summarize the transcribed text using OpenAI's GPT model.

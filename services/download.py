@@ -15,9 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 @stub.cls(
-    container_idle_timeout=60,
+    container_idle_timeout=5,
     image=downloader_image,
-    timeout=600,
+    timeout=60 * 10,
     volumes={DATA_DIR: volume},
 )
 class Downloader:
