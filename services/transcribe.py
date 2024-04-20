@@ -51,11 +51,11 @@ image = (
 
 @stub.cls(
     timeout=60 * 10,
-    container_idle_timeout=60,
-    allow_concurrent_inputs=2,
+    container_idle_timeout=5,
+    allow_concurrent_inputs=1,
     # using gpu throw index out of bound error from CUDA - unresolved yet
-    # gpu=gpu.A10G(),
-    cpu=2,
+    gpu=gpu.A10G(),
+    # cpu=2,
     image=image,
     volumes={DATA_DIR: volume},
 )
@@ -117,10 +117,12 @@ class Whisper:
     def transcribe_segment(self, start: float, end: float, audio_filepath: Path):
         """Transcribe a specific segment of an audio file."""
 
+        import gc
         import tempfile
         import time
 
         import ffmpeg
+        import torch
 
         t0 = time.time()
         with tempfile.NamedTemporaryFile(suffix=".mp3") as f:
@@ -151,7 +153,10 @@ class Whisper:
                 )
                 segment["timestamp"] = restored_timestamp
 
-            return result
+        gc.collect()
+        with torch.no_grad():
+            torch.cuda.empty_cache()
+        return result
 
 
 @stub.function(
