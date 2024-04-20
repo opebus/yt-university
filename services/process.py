@@ -42,7 +42,6 @@ async def process(video_url):
 
     volume.reload()
 
-    session = await anext(get_db_session())
     video = Video(
         id=metadata["id"],
         url=video_url,
@@ -56,39 +55,42 @@ async def process(video_url):
         thumbnail=metadata["thumbnail"],
     )
 
-    with open(audio_path, "rb") as f:
-        try:
-            supabase.storage.from_("audio").upload(
-                file=f, path=audio_path.split("/")[-1]
-            )
-        except Exception as e:
-            if "The resource already exists" in str(e):
-                supabase.storage.from_("audio").update(
-                    file=f, path=audio_path.split("/")[-1]
-                )
-            else:
-                raise e
-    os.remove(audio_path)
+    # with open(audio_path, "rb") as f:
+    #     try:
+    #         supabase.storage.from_("audio").upload(
+    #             file=f, path=audio_path.split("/")[-1]
+    #         )
+    #     except Exception as e:
+    #         if "The resource already exists" in str(e):
+    #             supabase.storage.from_("audio").update(
+    #                 file=f, path=audio_path.split("/")[-1]
+    #             )
+    #         else:
+    #             raise e
+    # os.remove(audio_path)
 
-    with open(thumbnail_path, "rb") as f:
-        try:
-            supabase.storage.from_("thumbnail").upload(
-                file=f, path=thumbnail_path.split("/")[-1]
-            )
-        except Exception as e:
-            if "The resource already exists" in str(e):
-                supabase.storage.from_("thumbnail").update(
-                    file=f, path=thumbnail_path.split("/")[-1]
-                )
-            else:
-                raise e
-    os.remove(thumbnail_path)
+    # with open(thumbnail_path, "rb") as f:
+    #     try:
+    #         supabase.storage.from_("thumbnail").upload(
+    #             file=f, path=thumbnail_path.split("/")[-1]
+    #         )
+    #     except Exception as e:
+    #         if "The resource already exists" in str(e):
+    #             supabase.storage.from_("thumbnail").update(
+    #                 file=f, path=thumbnail_path.split("/")[-1]
+    #             )
+    #         else:
+    #             raise e
+    # os.remove(thumbnail_path)
 
+    session = await anext(get_db_session())
     video = await upsert_video(session, video.id, video.to_dict())
 
+    session = await anext(get_db_session())
     transcription = transcribe.spawn(audio_path).get()
     video_data = await upsert_video(session, video.id, {"transcription": transcription})
 
+    session = await anext(get_db_session())
     summary = summarize.spawn(transcription).get()
     video_data = await upsert_video(session, video.id, {"summary": summary})
 

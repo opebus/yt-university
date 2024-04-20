@@ -30,9 +30,11 @@ image = (
     .apt_install("git", "ffmpeg")
     .pip_install(
         "transformers==4.39.3",
+        "torch",
+        "optimum",
+        "accelerate",
         "huggingface-hub",
         "hf-transfer",
-        "torch",
         "yt-dlp",
         "ffmpeg-python",
         "wheel",
@@ -48,10 +50,12 @@ image = (
 
 
 @stub.cls(
-    timeout=60 * 5,
+    timeout=60 * 10,
     container_idle_timeout=60,
     allow_concurrent_inputs=2,
-    gpu="A10G",
+    # using gpu throw index out of bound error from CUDA - unresolved yet
+    # gpu=gpu.A10G(),
+    cpu=2,
     image=image,
     volumes={DATA_DIR: volume},
 )
@@ -66,7 +70,12 @@ class Whisper:
         import time
 
         import torch
-        from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
+        from transformers import (
+            AutoModelForSpeechSeq2Seq,
+            AutoProcessor,
+            pipeline,
+            utils,
+        )
 
         logger.info("🥶 Cold starting inference")
         start = time.monotonic_ns()
@@ -80,10 +89,10 @@ class Whisper:
             MODEL_DIR,
             torch_dtype=torch_dtype,
             use_safetensors=True,
-            attn_implementation="flash_attention_2",
-        )
-
-        model.to(device)
+            attn_implementation="flash_attention_2"
+            if utils.is_flash_attn_2_available() == "cuda"
+            else "sdpa",
+        ).to(device)
 
         processor = AutoProcessor.from_pretrained(MODEL_DIR)
 
@@ -107,6 +116,7 @@ class Whisper:
     @method()
     def transcribe_segment(self, start: float, end: float, audio_filepath: Path):
         """Transcribe a specific segment of an audio file."""
+
         import tempfile
         import time
 
@@ -166,7 +176,7 @@ def transcribe(
 
 
 def split_silences(
-    path: str, min_segment_length: float = 30.0, min_silence_length: float = 1.0
+    path: str, min_segment_length: float = 60.0, min_silence_length: float = 1.0
 ) -> Iterator[tuple[float, float]]:
     """
     Split audio file into contiguous chunks using the ffmpeg `silencedetect` filter.

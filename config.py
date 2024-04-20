@@ -14,4 +14,4 @@ def get_logger(name, level=logging.INFO):
 
 DATA_DIR = "/data/"
 MODEL_DIR = "/model/"
-MAX_JOB_AGE_SECS = 2 * 60
+MAX_JOB_AGE_SECS = 10 * 60

@@ -60,7 +60,10 @@ def get_session_manager():
     return DatabaseSessionManager(database_url)
 
 
-async def get_db_session() -> AsyncSession:
+async def get_db_session() -> AsyncIterator[AsyncSession]:
     session_manager = get_session_manager()
-    async with session_manager.session() as session:
-        yield session
+    try:
+        async with session_manager.session() as session:
+            yield session
+    finally:
+        await session_manager.close()

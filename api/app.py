@@ -1,5 +1,4 @@
 import time
-from contextlib import asynccontextmanager
 from typing import NamedTuple
 from urllib.parse import parse_qs, urlparse
 
@@ -14,22 +13,7 @@ from yt_university.stub import in_progress
 
 logger = config.get_logger(__name__)
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """
-    Function that handles startup and shutdown events.
-    To understand more, read https://fastapi.tiangolo.com/advanced/events/
-    """
-    from yt_university.database import sessionmanager
-
-    yield
-    if sessionmanager._engine is not None:
-        # Close the DB connection
-        await sessionmanager.close()
-
-
-web_app = FastAPI(lifespan=lifespan)
+web_app = FastAPI()
 
 web_app.add_middleware(
     CORSMiddleware,
