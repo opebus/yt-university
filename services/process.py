@@ -82,16 +82,15 @@ async def process(video_url):
     #         else:
     #             raise e
     # os.remove(thumbnail_path)
+    async with get_db_session() as session:
+        video = await upsert_video(session, video.id, video.to_dict())
 
-    session = await anext(get_db_session())
-    video = await upsert_video(session, video.id, video.to_dict())
+        transcription = transcribe.spawn(audio_path).get()
+        video_data = await upsert_video(
+            session, video.id, {"transcription": transcription}
+        )
 
-    session = await anext(get_db_session())
-    transcription = transcribe.spawn(audio_path).get()
-    video_data = await upsert_video(session, video.id, {"transcription": transcription})
-
-    session = await anext(get_db_session())
-    summary = summarize.spawn(transcription).get()
-    video_data = await upsert_video(session, video.id, {"summary": summary})
+        summary = summarize.spawn(transcription).get()
+        video_data = await upsert_video(session, video.id, {"summary": summary})
 
     return video_data

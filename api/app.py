@@ -34,7 +34,6 @@ class InProgressJob(NamedTuple):
 async def process_workflow(url: str = Body(..., embed=True)):
     from yt_university.database import get_db_session
 
-    session = await anext(get_db_session())
     # defensive programming
     parsed = urlparse(url)
     id = parse_qs(parsed.query)["v"][0]
@@ -57,7 +56,9 @@ async def process_workflow(url: str = Body(..., embed=True)):
     except KeyError:
         pass
 
-    video = await get_video(session, id)
+    async with get_db_session() as session:
+        video = await get_video(session, id)
+
     if video and video.transcription is not None:
         raise HTTPException(status_code=400, detail="Video already processed")
     call = process.spawn(sanitized_url)
@@ -74,9 +75,8 @@ async def process_workflow(url: str = Body(..., embed=True)):
 async def invoke_transcription(id: str = Body(..., embed=True)):
     from yt_university.database import get_db_session
 
-    session = await anext(get_db_session())
-
-    video = await get_video(session, id)
+    async with get_db_session() as session:
+        video = await get_video(session, id)
 
     if not video:
         raise HTTPException(status_code=404, detail="Video not found")
@@ -86,7 +86,8 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
         )
 
     summary = summarize.spawn(video.transcription).get()
-    video_data = await upsert_video(session, video.id, {"summary": summary})
+    async with get_db_session() as session:
+        video_data = await upsert_video(session, video.id, {"summary": summary})
 
     return {id: video_data.id, "summary": video_data.summary}
 
@@ -148,9 +149,9 @@ async def get_videos(
 ):
     from yt_university.database import get_db_session
 
-    session = await anext(get_db_session())
+    async with get_db_session() as session:
+        video = await get_all_videos(session, page, page_size)
 
-    video = await get_all_videos(session, page, page_size)
     return video
 
 
@@ -165,9 +166,8 @@ async def get_individual_video(
     """
     from yt_university.database import get_db_session
 
-    session = await anext(get_db_session())
-
-    video = await get_video(session, id)
+    async with get_db_session() as session:
+        video = await get_video(session, id)
 
     # Check if the video was found
     if not video:

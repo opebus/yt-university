@@ -60,6 +60,7 @@ def get_session_manager():
     return DatabaseSessionManager(database_url)
 
 
+@contextlib.asynccontextmanager
 async def get_db_session() -> AsyncIterator[AsyncSession]:
     session_manager = get_session_manager()
     try:
