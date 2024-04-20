@@ -22,17 +22,17 @@ volume = Volume.from_name("yt-university-cache", create_if_missing=True)
     volumes={DATA_DIR: volume},
 )
 async def process(video_url):
-    import os
+    # import os
 
-    from supabase import Client, create_client
+    # from supabase import Client, create_client
 
     from yt_university.database import get_db_session
     from yt_university.models import Video
 
-    url: str = os.getenv("SUPABASE_URL")
-    key: str = os.getenv("SUPABASE_KEY")
+    # url: str = os.getenv("SUPABASE_URL")
+    # key: str = os.getenv("SUPABASE_KEY")
 
-    supabase: Client = create_client(url, key)
+    # supabase: Client = create_client(url, key)
 
     downloader = Downloader()
 
