@@ -54,9 +54,9 @@ image = (
     container_idle_timeout=5,
     allow_concurrent_inputs=1,
     # using gpu throw index out of bound error from CUDA - unresolved yet
-    # on a 2h50m video, T4 cost $0.27 versus A10G at $0.33
-    # using T4
-    gpu=gpu.A10G(),
+    # on a 2h50m video, T4 cost $0.16 versus A10G at $0.20
+    # since processing is asynchronous, ok to use T4
+    gpu=gpu.T4(),
     # cpu=2,
     image=image,
     volumes={DATA_DIR: volume},
@@ -185,7 +185,7 @@ def transcribe(
 
 
 def split_silences(
-    path: str, min_segment_length: float = 60.0, min_silence_length: float = 1.0
+    path: str, min_segment_length: float = 480.0, min_silence_length: float = 1.0
 ) -> Iterator[tuple[float, float]]:
     """
     Split audio file into contiguous chunks using the ffmpeg `silencedetect` filter.

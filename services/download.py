@@ -82,7 +82,7 @@ class Downloader:
             return out_path
 
         offset_args = f"-ss {offset}" if offset > 0 else ""
-        conversion_command = f'ffmpeg {offset_args} -i "{video_file_path}" -ar 16000 -ac 1 -c:a pcm_s16le "{out_path}"'
+        conversion_command = f'ffmpeg -hide_banner -v warning -stats {offset_args} -i "{video_file_path}" -ar 16000 -ac 1 -c:a pcm_s16le "{out_path}"'
         if os.system(conversion_command) != 0:
             raise RuntimeError("Error converting file to WAV.")
 
