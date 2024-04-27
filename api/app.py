@@ -143,16 +143,23 @@ async def poll_status(call_id: str):
 
 
 @web_app.get("/api/videos")
-async def get_videos(
-    page: int = Query(1, ge=1),
-    page_size: int = Query(10, ge=1),
+async def get_videos_by_category_or_all(
+    category: str = Query(None, description="The category of the videos to fetch"),
+    page: int = Query(1, description="Page number of the results"),
+    page_size: int = Query(10, description="Number of results per page"),
 ):
+    """
+    Fetch videos optionally filtered by category with pagination.
+    """
     from yt_university.database import get_db_session
 
     async with get_db_session() as session:
-        video = await get_all_videos(session, page, page_size)
+        videos = await get_all_videos(session, category, page, page_size)
 
-    return video
+    if not videos:
+        raise HTTPException(status_code=404, detail="No videos found")
+
+    return videos
 
 
 @web_app.get("/api/video")

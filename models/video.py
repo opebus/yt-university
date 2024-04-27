@@ -24,6 +24,7 @@ class Video(AlchemyBase, MetadataMixin):
     language: Mapped[str] = mapped_column(nullable=True)
     transcription: Mapped[JSON] = mapped_column(type_=JSON, nullable=True)
     summary: Mapped[str] = mapped_column(nullable=True)
+    category: Mapped[str] = mapped_column(nullable=True)
 
     def to_dict(self):
         return {field.name: getattr(self, field.name) for field in self.__table__.c}

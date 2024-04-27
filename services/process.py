@@ -5,7 +5,7 @@ from modal import Secret, Volume
 from yt_university.config import DATA_DIR
 from yt_university.crud.video import upsert_video
 from yt_university.services.download import Downloader
-from yt_university.services.summarize import generate_summary
+from yt_university.services.summarize import categorize_text, generate_summary
 from yt_university.services.transcribe import transcribe
 from yt_university.stub import shared_webapp_image, stub
 
@@ -92,5 +92,8 @@ async def process(video_url):
 
         summary = generate_summary.spawn(video.title, transcription).get()
         video_data = await upsert_video(session, video.id, {"summary": summary})
+
+        category = categorize_text.spawn(video.title, transcription).get()
+        video_data = await upsert_video(session, video.id, {"category": category})
 
     return video_data
