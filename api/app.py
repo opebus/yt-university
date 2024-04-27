@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from yt_university.config import MAX_JOB_AGE_SECS
 from yt_university.crud.video import get_all_videos, get_video, upsert_video
 from yt_university.services.process import process
-from yt_university.services.summarize import summarize
+from yt_university.services.summarize import generate_summary
 from yt_university.stub import in_progress
 
 logger = config.get_logger(__name__)
@@ -85,7 +85,7 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
             status_code=404, detail="Transcription not available for this video"
         )
 
-    summary = summarize.spawn(video.transcription).get()
+    summary = generate_summary.spawn(video.title, video.transcription).get()
     async with get_db_session() as session:
         video_data = await upsert_video(session, video.id, {"summary": summary})
 
