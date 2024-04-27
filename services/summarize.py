@@ -1,8 +1,8 @@
 import logging
 
-from modal import Image, Secret, Stub
+from modal import Image, Secret
 
-stub = Stub()
+from yt_university.stub import stub
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +14,6 @@ image = Image.debian_slim(python_version="3.11").pip_install("openai")
 def create_prompt(title: str, text: str) -> str:
     return f"""
         Your task is to provide an in-depth analysis of a provided video transcript, structured to both inform and engage readers. Your narrative should unfold with clarity and insight, reflecting the style of a Paul Graham essay.
-
-        First, generate a table of content according to the structure of your essay. This should be the first section.
 
         Follow these major headings for organization:
 
