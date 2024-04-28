@@ -110,40 +110,44 @@ def extract_tldr(output_text: str) -> str:
         return "TL;DR section not found."
 
 
+CATEGORIES = [
+    "Tutorials",
+    "Technology",
+    "Healthcare",
+    "Business",
+    "History",
+    "Mathematics",
+    "Engineering",
+    "Languages",
+    "Literature",
+    "Art",
+    "Music",
+    "Programming",
+    "Environment",
+    "Politics",
+    "Psychology",
+    "Law",
+    "Biology",
+    "Astronomy",
+    "Economics",
+    "Sports",
+    "Culture",
+    "Philosophy",
+    "Education",
+    "Leadership",
+    "Medicine",
+]
+
+
 def create_categorize_prompt(title, text):
-    categories = [
-        "Tutorials",
-        "Technology",
-        "Healthcare",
-        "Business",
-        "History",
-        "Mathematics",
-        "Engineering",
-        "Languages",
-        "Literature",
-        "Art",
-        "Music",
-        "Programming",
-        "Environment",
-        "Politics",
-        "Psychology",
-        "Law",
-        "Biology",
-        "Astronomy",
-        "Economics",
-        "Sports",
-        "Culture",
-        "Philosophy",
-        "Education",
-        "Leadership",
-        "Medicine",
-    ]
     return f"""
         Your task is to categorize the following text into tags.
 
         Use the categories provided below to tag the text accordingly. You are only allowed to select one category.
 
-        {categories}
+        Return selection in a string format, without being quoted with casing as shown.
+
+        {CATEGORIES}
 
         Title: {title}
         Text: {text}

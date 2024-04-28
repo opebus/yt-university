@@ -184,3 +184,15 @@ async def get_individual_video(
         raise HTTPException(status_code=404, detail="Video not found")
 
     return video
+
+
+@web_app.get("/api/categories")
+async def get_video_categories():
+    from yt_university.services.summarize import CATEGORIES
+
+    categories = CATEGORIES
+
+    if not categories:
+        raise HTTPException(status_code=404, detail="No categories found")
+
+    return categories
