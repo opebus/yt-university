@@ -169,7 +169,7 @@ def categorize_text(title: str, text: str):
             ],
         )
         category = response.choices[0].message.content.strip()
-        return category
+        return eval(category)
     except Exception as e:
         logger.error(f"Error in categorizing transcription: {str(e)}")
         return "Failed to categorize summary."
