@@ -4,11 +4,9 @@ from sqlalchemy import Column, DateTime
 from sqlalchemy.orm import InstrumentedAttribute, Relationship, declarative_base
 from sqlalchemy.sql import func
 
-
 from .favorite import Favorite
 from .user import User
 from .video import Video
-
 
 AlchemyBase = declarative_base()
 
