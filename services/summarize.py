@@ -173,7 +173,7 @@ def categorize_text(title: str, text: str):
             ],
         )
         category = response.choices[0].message.content.strip()
-        return eval(category)
+        return category.replace("'", "").replace('"', "")
     except Exception as e:
         logger.error(f"Error in categorizing transcription: {str(e)}")
         return "Failed to categorize summary."

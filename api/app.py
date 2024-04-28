@@ -3,8 +3,9 @@ from typing import NamedTuple
 from urllib.parse import parse_qs, urlparse
 
 import yt_university.config as config
-from fastapi import Body, FastAPI, HTTPException, Query
+from fastapi import Body, FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from yt_university.config import MAX_JOB_AGE_SECS
 from yt_university.crud.video import get_all_videos, get_video, upsert_video
 from yt_university.services.process import process
@@ -22,6 +23,11 @@ web_app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+class Favorite(BaseModel):
+    user_id: str
+    video_id: str
 
 
 class InProgressJob(NamedTuple):
@@ -92,7 +98,11 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
             session, video.id, {"summary": summary, "category": category}
         )
 
-    return {id: video_data.id, "summary": video_data.summary}
+    return {
+        id: video_data.id,
+        "summary": video_data.summary,
+        "category": video_data.category,
+    }
 
 
 @web_app.get("/api/status/{call_id}")
@@ -196,3 +206,53 @@ async def get_video_categories():
         raise HTTPException(status_code=404, detail="No categories found")
 
     return categories
+
+
+@web_app.post("/api/favorites")
+async def add_to_favorites(favorite: Favorite):
+    from yt_university.crud.favorite import add_favorite
+    from yt_university.database import get_db_session
+
+    print(favorite)
+    try:
+        async with get_db_session() as session:
+            favorite_data = await add_favorite(
+                session, favorite.user_id, favorite.video_id
+            )
+            return favorite_data
+    except HTTPException as e:
+        raise e
+
+
+@web_app.delete("/api/favorites")
+async def delete_favorite(favorite: Favorite):
+    from yt_university.crud.favorite import remove_favorite
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            await remove_favorite(session, favorite.user_id, favorite.video_id)
+            return {"status": "success", "message": "Favorite has been removed"}
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.get("/api/favorites/{user_id}")
+async def list_favorites(user_id: str):
+    from yt_university.crud.favorite import get_user_favorites
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            favorites = await get_user_favorites(session, user_id)
+            return favorites
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
