@@ -11,7 +11,9 @@ shared_webapp_image = (
 )
 
 
-@stub.function(image=shared_webapp_image, secrets=[Secret.from_name("university")])
+@stub.function(
+    image=shared_webapp_image, keep_warm=1, secrets=[Secret.from_name("university")]
+)
 @asgi_app()
 def app():
     from yt_university.api.app import web_app
