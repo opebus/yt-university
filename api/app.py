@@ -7,6 +7,13 @@ from fastapi import Body, FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from yt_university.config import MAX_JOB_AGE_SECS
+from yt_university.crud.playlist import (
+    add_playlist,
+    delete_playlist,
+    get_all_playlists,
+    get_playlist,
+    update_playlist,
+)
 from yt_university.crud.video import get_all_videos, get_video, upsert_video
 from yt_university.services.process import process
 from yt_university.services.summarize import categorize_text, generate_summary
@@ -175,12 +182,8 @@ async def get_videos_by_category_or_all(
     return videos
 
 
-@web_app.get("/api/video")
-async def get_individual_video(
-    id: str = Query(
-        ..., description="The ID of the video"
-    ),  # Use ellipsis to make it a required field
-):
+@web_app.get("/api/video/{id}")
+async def get_individual_video():
     """
     Fetch a video by its ID.
     """
@@ -253,6 +256,93 @@ async def list_favorites(user_id: str):
     except HTTPException as e:
         raise e
     except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.post("/api/playlists")
+async def create_playlist(playlist_data: dict, session):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            new_playlist = await add_playlist(session, playlist_data)
+            return new_playlist
+    except Exception as e:
+        logger.error(f"Failed to create a new playlist: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.put("/api/playlists/{playlist_id}")
+async def update_existing_playlist(playlist_id: str, playlist_data: dict, session):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            updated_playlist = await update_playlist(
+                session, playlist_id, playlist_data
+            )
+            return updated_playlist
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Failed to update playlist: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.delete("/api/playlists/{playlist_id}")
+async def delete_existing_playlist(playlist_id: str, session):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            await delete_playlist(session, playlist_id)
+            return {"status": "success", "message": "Playlist has been deleted"}
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Failed to delete playlist: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.get("/api/playlists")
+async def list_playlists_for_user(
+    user_id: str = Query(None, description="The user ID to fetch playlists for"),
+):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            playlists = await get_all_playlists(session, user_id=user_id)
+            return playlists
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Failed to list playlists for user {user_id}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.get("/api/playlists/{playlist_id}")
+async def get_playlist_details(playlist_id: str, session):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            playlist = await get_playlist(session, playlist_id)
+            return playlist
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Failed to retrieve playlist with ID {playlist_id}: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )

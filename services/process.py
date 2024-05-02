@@ -26,8 +26,8 @@ async def process(video_url):
 
     # from supabase import Client, create_client
 
+    from yt_university import Video
     from yt_university.database import get_db_session
-    from yt_university.models import Video
 
     # url: str = os.getenv("SUPABASE_URL")
     # key: str = os.getenv("SUPABASE_KEY")

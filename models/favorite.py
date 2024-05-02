@@ -1,10 +1,9 @@
 from sqlalchemy import ForeignKey, event
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from yt_university.models.video import Video
-
 # Importing for more specific types
-from . import AlchemyBase, MetadataMixin
+from .base import AlchemyBase, MetadataMixin
+from .video import Video
 
 
 class Favorite(AlchemyBase, MetadataMixin):
@@ -13,8 +12,8 @@ class Favorite(AlchemyBase, MetadataMixin):
     user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     video_id: Mapped[str] = mapped_column(ForeignKey("video.id"), primary_key=True)
 
-    user = relationship("User", back_populates="videos")
-    video = relationship("Video", back_populates="users")
+    user = relationship("User", back_populates="favorites")
+    video = relationship("Video", back_populates="favorited_users")
 
     @staticmethod
     def after_insert(mapper, connection, target):

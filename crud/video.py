@@ -21,7 +21,7 @@ async def upsert_video(session, video_id: str, update_data: dict):
     from sqlalchemy.exc import SQLAlchemyError
     from sqlalchemy.future import select
 
-    from yt_university.models.video import Video
+    from yt_university.models import Video
 
     try:
         # Try to fetch the existing video
@@ -70,7 +70,7 @@ async def upsert_video(session, video_id: str, update_data: dict):
 async def get_video(session, video_id):
     from sqlalchemy.future import select
 
-    from yt_university.models.video import Video
+    from yt_university.models import Video
 
     stmt = select(Video).filter(Video.id == video_id)
     result = await session.execute(stmt)
@@ -80,15 +80,16 @@ async def get_video(session, video_id):
 
 
 async def get_all_videos(session, category=None, page=1, page_size=10):
+    from sqlalchemy import func
     from sqlalchemy.future import select
 
-    from yt_university.models.video import Video
+    from yt_university.models import Video
 
     offset = (page - 1) * page_size
     query = select(Video)
 
     if category:
-        query = query.where(Video.category == category)
+        query = query.where(func.lower(Video.category) == func.lower(category))
 
     query = query.offset(offset).limit(page_size)
     result = await session.execute(query)
