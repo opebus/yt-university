@@ -183,7 +183,7 @@ async def get_videos_by_category_or_all(
 
 
 @web_app.get("/api/video/{id}")
-async def get_individual_video():
+async def get_individual_video(id: str):
     """
     Fetch a video by its ID.
     """
@@ -192,7 +192,6 @@ async def get_individual_video():
     async with get_db_session() as session:
         video = await get_video(session, id)
 
-    # Check if the video was found
     if not video:
         raise HTTPException(status_code=404, detail="Video not found")
 
