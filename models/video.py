@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import (
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # Importing for more specific types
-from . import AlchemyBase, MetadataMixin
+from .base import AlchemyBase, MetadataMixin
 
 
 class Video(AlchemyBase, MetadataMixin):
@@ -26,10 +26,9 @@ class Video(AlchemyBase, MetadataMixin):
     summary: Mapped[str] = mapped_column(nullable=True)
     category: Mapped[str] = mapped_column(nullable=True)
     favorite_count: Mapped[int] = mapped_column(server_default="0", nullable=False)
-    users = relationship("Favorite", back_populates="video")
 
-    def to_dict(self):
-        return {field.name: getattr(self, field.name) for field in self.__table__.c}
+    favorited_users = relationship("Favorite", back_populates="video")
+    playlists = relationship("PlaylistVideo", back_populates="video")
 
     def increment_favorite(self):
         self.favorite_count += 1

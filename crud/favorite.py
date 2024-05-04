@@ -55,7 +55,7 @@ async def add_favorite(session, user_id: str, video_id: str):
 async def remove_favorite(session, user_id: str, video_id: str):
     from sqlalchemy.future import select
 
-    from yt_university.models.favorite import Favorite
+    from yt_university.models import Favorite
 
     try:
         favorite = await session.execute(
@@ -80,8 +80,7 @@ async def remove_favorite(session, user_id: str, video_id: str):
 async def get_user_favorites(session, user_id: str):
     from sqlalchemy.future import select
 
-    from yt_university.models.favorite import Favorite
-    from yt_university.models.video import Video
+    from yt_university.models import Favorite, Video
 
     try:
         result = await session.execute(
