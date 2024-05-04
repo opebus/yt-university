@@ -3,8 +3,9 @@ from typing import NamedTuple
 from urllib.parse import parse_qs, urlparse
 
 import yt_university.config as config
-from fastapi import Body, FastAPI, HTTPException, Query, status
+from fastapi import Body, FastAPI, HTTPException, Query, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from yt_university.config import MAX_JOB_AGE_SECS
 from yt_university.crud.playlist import (
@@ -345,3 +346,68 @@ async def get_playlist_details(playlist_id: str, session):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
+
+
+class ClerkWebhook(BaseModel):
+    data: dict
+    object: str
+    type: str
+
+
+@web_app.post("/api/user")
+async def user_webhook(request: Request):
+    import json
+    import os
+
+    from svix.webhooks import Webhook, WebhookVerificationError
+    from yt_university.crud.user import add_user, delete_user, update_user
+    from yt_university.database import get_db_session
+
+    headers = request.headers
+    payload = await request.body()
+    secret = os.environ["CLERK_SIGNING_SECRET"]
+
+    try:
+        wh = Webhook(secret)
+        wh.verify(payload, headers)
+    except WebhookVerificationError:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={"detail": "Invalid signature"},
+        )
+
+    webhook_data = json.loads(payload.decode())
+    webhook = ClerkWebhook(**webhook_data)
+
+    user_data = webhook.data
+    if webhook.type != "user.deleted":
+        user_data = {
+            "id": webhook.data["id"],
+            "username": webhook.data["username"],
+            "first_name": webhook.data["first_name"],
+            "last_name": webhook.data["last_name"],
+            "primary_email_address_id": webhook.data["primary_email_address_id"],
+            "email_addresses": webhook.data["email_addresses"],
+        }
+
+    async with get_db_session() as session:
+        if webhook.type == "user.created":
+            user_created = await add_user(session, user_data)
+            return JSONResponse(
+                content={"message": "User created successfully", "user": user_created},
+                status_code=status.HTTP_201_CREATED,
+            )
+        elif webhook.type == "user.updated":
+            user_updated = await update_user(session, user_data)
+            return JSONResponse(
+                content={"message": "User updated successfully", "user": user_updated},
+                status_code=status.HTTP_200_OK,
+            )
+        elif webhook.type == "user.deleted":
+            await delete_user(session, user_data)
+            return JSONResponse(
+                content={"message": "User deleted successfully"},
+                status_code=status.HTTP_204_NO_CONTENT,
+            )
+        else:
+            raise HTTPException(status_code=400, detail="Unsupported event type")

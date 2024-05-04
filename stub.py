@@ -7,7 +7,9 @@ in_progress = Dict.from_name("progress", create_if_missing=True)
 shared_webapp_image = (
     Image.debian_slim(python_version="3.12")
     .apt_install("libpq-dev")
-    .pip_install("python-dotenv", "psycopg2", "asyncpg", "sqlalchemy", "supabase")
+    .pip_install(
+        "python-dotenv", "psycopg2", "asyncpg", "sqlalchemy", "supabase", "svix"
+    )
 )
 
 
