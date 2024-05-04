@@ -69,10 +69,13 @@ async def upsert_video(session, video_id: str, update_data: dict):
 
 async def get_video(session, video_id):
     from sqlalchemy.future import select
+    from sqlalchemy.orm import defer
 
     from yt_university.models import Video
 
-    stmt = select(Video).filter(Video.id == video_id)
+    stmt = (
+        select(Video).filter(Video.id == video_id).options(defer(Video.transcription))
+    )
     result = await session.execute(stmt)
     video = result.scalars().first()
 
@@ -82,11 +85,12 @@ async def get_video(session, video_id):
 async def get_all_videos(session, category=None, page=1, page_size=10):
     from sqlalchemy import func
     from sqlalchemy.future import select
+    from sqlalchemy.orm import defer
 
     from yt_university.models import Video
 
     offset = (page - 1) * page_size
-    query = select(Video)
+    query = select(Video).options(defer(Video.transcription))
 
     if category:
         query = query.where(func.lower(Video.category) == func.lower(category))
