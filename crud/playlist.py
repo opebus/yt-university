@@ -74,7 +74,7 @@ async def delete_playlist(session, playlist_id):
         playlist = result.scalars().first()
 
         if playlist:
-            await session.delete(playlist)
+            await playlist.delete()
             await session.commit()
         else:
             raise HTTPException(status_code=404, detail="Playlist not found")
