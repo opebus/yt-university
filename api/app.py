@@ -92,14 +92,15 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
     async with get_db_session() as session:
         video = await get_video(session, id)
 
-    if not video:
-        raise HTTPException(status_code=404, detail="Video not found")
-    if not video.transcription:
-        raise HTTPException(
-            status_code=404, detail="Transcription not available for this video"
-        )
+        if not video:
+            raise HTTPException(status_code=404, detail="Video not found")
 
-    async with get_db_session() as session:
+        await session.refresh(video, attribute_names=["transcription"])
+        if not video.transcription:
+            raise HTTPException(
+                status_code=404, detail="Transcription not available for this video"
+            )
+
         summary = generate_summary.spawn(video.title, video.transcription).get()
         category = categorize_text.spawn(video.title, summary).get()
         video_data = await upsert_video(

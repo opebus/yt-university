@@ -1,8 +1,6 @@
 import logging
 
 from fastapi import HTTPException
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.future import select
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +23,9 @@ async def add_playlist(session, playlist_data):
 
 
 async def update_playlist(session, playlist_id: str, update_data: dict):
+    from sqlalchemy.exc import SQLAlchemyError
+    from sqlalchemy.future import select
+
     from yt_university.models import Playlist
 
     try:
@@ -65,6 +66,9 @@ async def update_playlist(session, playlist_id: str, update_data: dict):
 
 
 async def delete_playlist(session, playlist_id):
+    from sqlalchemy.exc import SQLAlchemyError
+    from sqlalchemy.future import select
+
     from yt_university.models import Playlist
 
     try:
