@@ -44,9 +44,19 @@ class InProgressJob(NamedTuple):
     status: str
 
 
+class WorkflowRequest(BaseModel):
+    url: str
+    user_id: str
+    force: bool = False
+
+
 @web_app.post("/api/process")
-async def process_workflow(url: str = Body(..., embed=True)):
+async def process_workflow(request: WorkflowRequest):
     from yt_university.database import get_db_session
+
+    url = request.url
+    user_id = request.user_id
+    force = request.force
 
     # defensive programming
     parsed = urlparse(url)
@@ -56,26 +66,28 @@ async def process_workflow(url: str = Body(..., embed=True)):
     sanitized_url = "https://www.youtube.com/watch?v=" + id
 
     now = int(time.time())
-    try:
-        inprogress_job = in_progress[sanitized_url]
-        if (
-            isinstance(inprogress_job, InProgressJob)
-            and (now - inprogress_job.start_time) < MAX_JOB_AGE_SECS
-        ):
-            existing_call_id = inprogress_job.call_id
-            logger.info(
-                f"Found existing, unexpired call ID {existing_call_id} for video {sanitized_url}"
-            )
-            return {"call_id": existing_call_id}
-    except KeyError:
-        pass
+    if not force:
+        try:
+            inprogress_job = in_progress[sanitized_url]
+            if (
+                isinstance(inprogress_job, InProgressJob)
+                and (now - inprogress_job.start_time) < MAX_JOB_AGE_SECS
+            ):
+                existing_call_id = inprogress_job.call_id
+                logger.info(
+                    f"Found existing, unexpired call ID {existing_call_id} for video {sanitized_url}"
+                )
+                return {"call_id": existing_call_id}
+        except KeyError:
+            pass
 
     async with get_db_session() as session:
         video = await get_video(session, id)
+        await session.refresh(video, attribute_names=["transcription"])
 
     if video and video.transcription is not None:
         raise HTTPException(status_code=400, detail="Video already processed")
-    call = process.spawn(sanitized_url)
+    call = process.spawn(sanitized_url, user_id)
 
     in_progress[sanitized_url] = InProgressJob(
         call_id=call.object_id, start_time=now, status="init"
@@ -165,7 +177,8 @@ async def poll_status(call_id: str):
 
 
 @web_app.get("/api/videos")
-async def get_videos_by_category_or_all(
+async def all_videos(
+    user_id: str = Query(None, description="The user ID to fetch videos for"),
     category: str = Query(None, description="The category of the videos to fetch"),
     page: int = Query(1, description="Page number of the results"),
     page_size: int = Query(10, description="Number of results per page"),
@@ -176,7 +189,7 @@ async def get_videos_by_category_or_all(
     from yt_university.database import get_db_session
 
     async with get_db_session() as session:
-        videos = await get_all_videos(session, category, page, page_size)
+        videos = await get_all_videos(session, category, user_id, page, page_size)
 
     if not videos:
         raise HTTPException(status_code=404, detail="No videos found")
@@ -217,7 +230,6 @@ async def add_to_favorites(favorite: Favorite):
     from yt_university.crud.favorite import add_favorite
     from yt_university.database import get_db_session
 
-    print(favorite)
     try:
         async with get_db_session() as session:
             favorite_data = await add_favorite(

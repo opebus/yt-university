@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import (
     JSON,
 )
@@ -26,7 +27,9 @@ class Video(AlchemyBase, MetadataMixin):
     summary: Mapped[str] = mapped_column(nullable=True)
     category: Mapped[str] = mapped_column(nullable=True)
     favorite_count: Mapped[int] = mapped_column(server_default="0", nullable=False)
+    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), nullable=True)
 
+    user = relationship("User", back_populates="videos", uselist=False)
     favorited_users = relationship("Favorite", back_populates="video")
     playlists = relationship("PlaylistVideo", back_populates="video")
 

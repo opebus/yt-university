@@ -16,5 +16,6 @@ class User(AlchemyBase, MetadataMixin):
     primary_email_address_id: Mapped[str] = mapped_column(nullable=True)
     email_addresses: Mapped[JSON] = mapped_column(type_=JSON, nullable=True)
 
+    videos = relationship("Video", back_populates="user")
     favorites = relationship("Favorite", back_populates="user")
     playlists = relationship("Playlist", back_populates="user")

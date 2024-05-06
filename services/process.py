@@ -21,24 +21,15 @@ volume = Volume.from_name("yt-university-cache", create_if_missing=True)
     secrets=[Secret.from_name("university")],
     volumes={DATA_DIR: volume},
 )
-async def process(video_url):
-    # import os
-
-    # from supabase import Client, create_client
-
+async def process(video_url: str, user_id: str):
     from yt_university.database import get_db_session
     from yt_university.models import Video
-
-    # url: str = os.getenv("SUPABASE_URL")
-    # key: str = os.getenv("SUPABASE_KEY")
-
-    # supabase: Client = create_client(url, key)
 
     downloader = Downloader()
 
     download_call = downloader.run.spawn(video_url)
     result = download_call.get()
-    audio_path, thumbnail_path, metadata = result
+    audio_path, _, metadata = result
 
     volume.reload()
 
@@ -53,35 +44,10 @@ async def process(video_url):
         channel_id=metadata["channel_id"],
         uploaded_at=metadata["upload_date"],
         thumbnail=metadata["thumbnail"],
+        user_id=user_id,
+        favorite_count=0,
     )
 
-    # with open(audio_path, "rb") as f:
-    #     try:
-    #         supabase.storage.from_("audio").upload(
-    #             file=f, path=audio_path.split("/")[-1]
-    #         )
-    #     except Exception as e:
-    #         if "The resource already exists" in str(e):
-    #             supabase.storage.from_("audio").update(
-    #                 file=f, path=audio_path.split("/")[-1]
-    #             )
-    #         else:
-    #             raise e
-    # os.remove(audio_path)
-
-    # with open(thumbnail_path, "rb") as f:
-    #     try:
-    #         supabase.storage.from_("thumbnail").upload(
-    #             file=f, path=thumbnail_path.split("/")[-1]
-    #         )
-    #     except Exception as e:
-    #         if "The resource already exists" in str(e):
-    #             supabase.storage.from_("thumbnail").update(
-    #                 file=f, path=thumbnail_path.split("/")[-1]
-    #             )
-    #         else:
-    #             raise e
-    # os.remove(thumbnail_path)
     async with get_db_session() as session:
         video = await upsert_video(session, video.id, video.to_dict())
 

@@ -82,7 +82,7 @@ async def get_video(session, video_id):
     return video
 
 
-async def get_all_videos(session, category=None, page=1, page_size=10):
+async def get_all_videos(session, category=None, user_id=None, page=1, page_size=10):
     from sqlalchemy import func
     from sqlalchemy.future import select
     from sqlalchemy.orm import defer
@@ -90,10 +90,12 @@ async def get_all_videos(session, category=None, page=1, page_size=10):
     from yt_university.models import Video
 
     offset = (page - 1) * page_size
-    query = select(Video).options(defer(Video.transcription))
+    query = select(Video).options(defer(Video.transcription, Video.summary))
 
     if category:
         query = query.where(func.lower(Video.category) == func.lower(category))
+    if user_id:
+        query = query.where(Video.user_id == user_id)
 
     query = query.offset(offset).limit(page_size)
     result = await session.execute(query)

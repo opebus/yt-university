@@ -136,7 +136,9 @@ class Whisper:
                 .run(quiet=True)
             )
             # Transcribe the processed audio segment
-            result = self.pipe(f.name)
+            result = self.pipe(
+                f.name, generate_kwargs={"language": "<|en|>", "task": "transcribe"}
+            )
             logger.info(
                 f"Transcribed segment from {start:.2f} to {end:.2f} in {time.time() - t0:.2f} seconds."
             )
