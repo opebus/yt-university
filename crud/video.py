@@ -90,7 +90,7 @@ async def get_all_videos(session, category=None, user_id=None, page=1, page_size
     from yt_university.models import Video
 
     offset = (page - 1) * page_size
-    query = select(Video).options(defer(Video.transcription, Video.summary))
+    query = select(Video).options(defer(Video.transcription), defer(Video.summary))
 
     if category:
         query = query.where(func.lower(Video.category) == func.lower(category))
