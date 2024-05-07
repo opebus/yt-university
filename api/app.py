@@ -83,10 +83,11 @@ async def process_workflow(request: WorkflowRequest):
 
     async with get_db_session() as session:
         video = await get_video(session, id)
-        await session.refresh(video, attribute_names=["transcription"])
+        if video:
+            await session.refresh(video, attribute_names=["transcription"])
+            if video.transcription is not None:
+                raise HTTPException(status_code=400, detail="Video already processed")
 
-    if video and video.transcription is not None:
-        raise HTTPException(status_code=400, detail="Video already processed")
     call = process.spawn(sanitized_url, user_id)
 
     in_progress[sanitized_url] = InProgressJob(
