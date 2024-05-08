@@ -276,7 +276,7 @@ async def list_favorites(user_id: str):
 
 
 @web_app.post("/api/playlists")
-async def create_playlist(playlist_data: dict, session):
+async def create_playlist(playlist_data: dict):
     from yt_university.database import get_db_session
 
     try:
@@ -310,7 +310,7 @@ async def update_existing_playlist(playlist_id: str, playlist_data: dict, sessio
 
 
 @web_app.delete("/api/playlists/{playlist_id}")
-async def delete_existing_playlist(playlist_id: str, session):
+async def delete_existing_playlist(playlist_id: str):
     from yt_university.database import get_db_session
 
     try:
@@ -346,7 +346,7 @@ async def list_playlists_for_user(
 
 
 @web_app.get("/api/playlists/{playlist_id}")
-async def get_playlist_details(playlist_id: str, session):
+async def get_playlist_details(playlist_id: str):
     from yt_university.database import get_db_session
 
     try:
