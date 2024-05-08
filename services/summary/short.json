@@ -1,0 +1,1814 @@
+{
+  "chunks": [
+    {
+      "timestamp": [0, 5.24],
+      "text": " So every year there are more people registering for the visa itself than there are spots."
+    },
+    {
+      "timestamp": [5.9, 11],
+      "text": " And then that number has only increased like dramatically over the last 10 years."
+    },
+    {
+      "timestamp": [11, 17.32],
+      "text": " And so you think about last year, same 65,000 spots, 780,000 people registered."
+    },
+    {
+      "timestamp": [18.38, 26.54],
+      "text": " And so you're talking about the vast, vast majority of people who do immediately just are almost certainly like not going to get it."
+    },
+    {
+      "timestamp": [26.54, 39.74],
+      "text": " And so we've created a system where some of the most incredibly talented people who come from every corner of the globe gets chucked into a lottery system, irrespective of their degree, irrespective of their work experience."
+    },
+    {
+      "timestamp": [40.4, 49.16],
+      "text": " They are beholden to a category that basically that largely does them a disservice because the likelihood of them getting it every year is pretty low."
+    },
+    {
+      "timestamp": [49.38, 53.88],
+      "text": " Right. So that's currently how most of employment based immigration works."
+    },
+    {
+      "timestamp": [54.38, 73.7],
+      "text": " And the big insight that happened is I think America is starting to take its immigration problem seriously."
+    },
+    {
+      "timestamp": [79.18, 84.22],
+      "text": " Welcome to Sorcery's podcast. I'm Molly O'Shea, the founder of Sorcery, a weekly top VC deals newsletter and now podcast highlighting the top GPs, founders, and deal announcements leading the"
+    },
+    {
+      "timestamp": [84.22, 90.02],
+      "text": " next innovation cycle. Today, we have Min Kim, founder of Lighthouse, a recently launched early-stage"
+    },
+    {
+      "timestamp": [90.02, 95.04],
+      "text": " immigration solution for pioneers in technology. With Lighthouse, you can find out which visa path"
+    },
+    {
+      "timestamp": [95.04, 99.58],
+      "text": " is right for you in just a few clicks. They serve the world's best and brightest in the startup and"
+    },
+    {
+      "timestamp": [99.58, 104.28],
+      "text": " technology industries with the fastest path to prepare and submit U.S. work visa applications."
+    },
+    {
+      "timestamp": [105.32, 109.74],
+      "text": " Lighthouse builds software to power efficiency and provides the highest quality U.S. immigration experience."
+    },
+    {
+      "timestamp": [110.16, 114.66],
+      "text": " This is a very enlightening, informational, and awesome conversation. I hope you enjoy."
+    },
+    {
+      "timestamp": [115.48, 120.38],
+      "text": " Hi, Min. Thanks for joining us. Hi, it's so nice to be here. Thanks for having me on, Molly."
+    },
+    {
+      "timestamp": [120.88, 126.6],
+      "text": " Of course. Well, I'd love to dig in. So you founded Lighthouse. How did you start your"
+    },
+    {
+      "timestamp": [126.6, 132.86],
+      "text": " career and how did you end up founding a company? Oh my gosh, how far do you want to go back? I"
+    },
+    {
+      "timestamp": [132.86, 139.14],
+      "text": " actually started my career in New York. So I was born in Seoul, so immigrant story in some way,"
+    },
+    {
+      "timestamp": [139.26, 143.9],
+      "text": " but I grew up mostly on the East Coast and I have spent the bulk of my career supporting"
+    },
+    { "timestamp": [143.9, 146.16], "text": " entrepreneurs. I started my" },
+    {
+      "timestamp": [146.16, 150.98],
+      "text": " career in financial services, finding early stage technology companies for a really big"
+    },
+    {
+      "timestamp": [150.98, 158.42],
+      "text": " financial service company to buy. And I knew nothing about tech and startups. And it was"
+    },
+    {
+      "timestamp": [158.42, 166.28],
+      "text": " like basically my first foray into learning about like the industry. And this is 2015 in New York where, you know,"
+    },
+    {
+      "timestamp": [166.34, 169.68],
+      "text": " there was like the heyday of Oscar Health and Datadog."
+    },
+    {
+      "timestamp": [171.42, 173.26],
+      "text": " Hinge was starting to become really popular."
+    },
+    {
+      "timestamp": [173.68, 176],
+      "text": " And so New York was an emerging, like,"
+    },
+    {
+      "timestamp": [176.18, 178.62],
+      "text": " it is obviously a much more robust ecosystem today."
+    },
+    {
+      "timestamp": [179.02, 182.3],
+      "text": " But there were a lot of like really cool companies that had become quite big"
+    },
+    {
+      "timestamp": [182.3, 185.02],
+      "text": " and it had made the tech industry like really"
+    },
+    {
+      "timestamp": [185.02, 190.16],
+      "text": " prominent in New York in a way that I don't think it had as much. So I was kind of thrown into that"
+    },
+    {
+      "timestamp": [190.16, 197.66],
+      "text": " world. I spent all of my like weekend going to meetups and like evenings showing up to events"
+    },
+    {
+      "timestamp": [197.66, 203.64],
+      "text": " and just like wanting to meet early stage founders. And that is how I ended up in venture actually."
+    },
+    {
+      "timestamp": [203.9, 207.1],
+      "text": " And so five years ago, I ended up moving to San Francisco from New York."
+    },
+    {
+      "timestamp": [207.52, 210.48],
+      "text": " We can talk about San Francisco versus New York if we want to."
+    },
+    {
+      "timestamp": [211.02, 215.98],
+      "text": " And I just felt like there was so much electricity in the city."
+    },
+    {
+      "timestamp": [216.46, 220.82],
+      "text": " And all of the most interesting people that I was excited to meet were here."
+    },
+    {
+      "timestamp": [221.26, 222.9],
+      "text": " I was sliding into people's DMs."
+    },
+    {
+      "timestamp": [223.26, 226.18],
+      "text": " And I ended up meeting incredible, incredible people"
+    },
+    {
+      "timestamp": [226.18, 233.8],
+      "text": " who were so generous with their time, like the Slack founder, just like the people at Twitter"
+    },
+    {
+      "timestamp": [233.8, 241.14],
+      "text": " who I just really admired from afar. And so I figured out I need to find a way to come to San"
+    },
+    {
+      "timestamp": [241.14, 245.02],
+      "text": " Francisco. And the only person that I knew in SF was a VC."
+    },
+    {
+      "timestamp": [245.98, 250.44],
+      "text": " And so I actually went to him. His name is Roy Bahad at Bloomberg Beta. And I asked him for"
+    },
+    {
+      "timestamp": [250.44, 256.88],
+      "text": " advice about how do I break into startups. And he gave me some really candid advice that"
+    },
+    {
+      "timestamp": [256.88, 261.34],
+      "text": " if you really want to break into startups, you're really going to have to build a community."
+    },
+    {
+      "timestamp": [262.08, 265.68],
+      "text": " And if you've never really had one before and you're not really in it, that's going to have to build a community. And if you've never really had one before and you're not really"
+    },
+    {
+      "timestamp": [265.68, 271.4],
+      "text": " in it, that's going to be really hard. And so he offered me a job, which was incredibly gracious."
+    },
+    {
+      "timestamp": [272.24, 277.02],
+      "text": " And so I went back to New York, thought about it and figured, you know what, like this might be"
+    },
+    {
+      "timestamp": [277.02, 283.12],
+      "text": " like the chance. And so I called him up a couple of weeks later and said, hey, if that is still"
+    },
+    {
+      "timestamp": [283.12, 285.78],
+      "text": " on the table, I'll start on Monday."
+    },
+    {
+      "timestamp": [289.68, 290.5],
+      "text": " So that's how I ended up going from financial services in New York to San Francisco."
+    },
+    {
+      "timestamp": [292.66, 293.5],
+      "text": " And then that kicked off my tech career."
+    },
+    {
+      "timestamp": [297.62, 302.82],
+      "text": " And I spent about three and a half years investing primarily in AI and robotics and then moved over to a startup called OnDeck where I launched a global accelerator"
+    },
+    {
+      "timestamp": [302.82, 309.72],
+      "text": " working with international entrepreneurs from every corner of the globe, you name it. And it's been an extraordinary"
+    },
+    {
+      "timestamp": [309.72, 314.88],
+      "text": " learning experience of just understanding like what do early stage entrepreneurs need and what"
+    },
+    {
+      "timestamp": [314.88, 319.82],
+      "text": " do fast-growing companies need? And that is in some in a lot of ways what's inspired me to build"
+    },
+    {
+      "timestamp": [319.82, 327.58],
+      "text": " Lighthouse. That's amazing. And I totally get that coming from New York, too. It's it's it's nice to get out of the bubble and experience new things."
+    },
+    {
+      "timestamp": [327.58, 332.88],
+      "text": " And I was always itching to get to San Francisco because the energy there is just it's all there."
+    },
+    {
+      "timestamp": [332.98, 335.88],
+      "text": " That's where tech is. You go there and you feel like a tourist."
+    },
+    {
+      "timestamp": [335.92, 342.52],
+      "text": " But like that's that's what's going on. And in terms of Lighthouse, I'd love to understand what's your mission."
+    },
+    {
+      "timestamp": [343.28, 346.22],
+      "text": " How did you discover this problem? How big is this problem?"
+    },
+    {
+      "timestamp": [346.68, 350.74],
+      "text": " So Lighthouse is your full-stack immigration solution for the world's best and brightest."
+    },
+    {
+      "timestamp": [350.98, 354.3],
+      "text": " The problem is in some ways how come you can do your taxes online?"
+    },
+    {
+      "timestamp": [354.78, 357],
+      "text": " You can incorporate your company online."
+    },
+    {
+      "timestamp": [357.42, 360.86],
+      "text": " You can get the expert support that you need should you want it."
+    },
+    {
+      "timestamp": [360.94, 363.64],
+      "text": " But there's no reason why some of these processes,"
+    },
+    {
+      "timestamp": [363.64, 371.18],
+      "text": " especially when interacting with regulated industries, like shouldn't be much more fast, simple and straightforward."
+    },
+    {
+      "timestamp": [371.74, 381.74],
+      "text": " And today, part of like the mission or big the mission itself is actually how do you unlock the world's best and brightest to be able to do what they are meant to do, right?"
+    },
+    {
+      "timestamp": [381.82, 386.84],
+      "text": " Do what they build. And the U.S. is kind of like a titan of the global"
+    },
+    {
+      "timestamp": [386.84, 392.4],
+      "text": " technology industry, right? And it's a beacon oftentimes for people who want to be ambitious."
+    },
+    {
+      "timestamp": [393.06, 397.34],
+      "text": " And this is still the destination for a lot of those individuals who want to do extraordinary"
+    },
+    {
+      "timestamp": [397.34, 407.14],
+      "text": " things. And we have this singularly bureaucratic process that keeps them from being able to either come or stay. And so a"
+    },
+    {
+      "timestamp": [407.14, 414],
+      "text": " lot of what motivates me and our core vision here is we want to democratize access to high-skilled"
+    },
+    {
+      "timestamp": [414, 420.9],
+      "text": " immigration because it happens to be one of the biggest assets that this country has. And for"
+    },
+    {
+      "timestamp": [420.9, 426.12],
+      "text": " decades and decades, we have benefited from it economically, politically."
+    },
+    {
+      "timestamp": [427.12, 439.88],
+      "text": " And if we rest on our laurels, I am a strong believer and advocate that you lose in the long run because you just have atrophied in the culture and in what we stand for."
+    },
+    {
+      "timestamp": [440.1, 448.18],
+      "text": " It's a huge problem. And I don't know if many people know the real constraints of that or even the data behind it."
+    },
+    {
+      "timestamp": [448.24, 453.92],
+      "text": " But if you have any sort of examples, I'd love to understand, like, how many applicants there are a year."
+    },
+    {
+      "timestamp": [454.08, 460.1],
+      "text": " Like, what's the approval process like? How does how does U.S. immigration really work?"
+    },
+    {
+      "timestamp": [460.24, 465.02],
+      "text": " Oh, my gosh. So I'll divide it up into employment-based and not employment-based."
+    },
+    {
+      "timestamp": [465.36, 468.56],
+      "text": " And so not employment-based is marriage, green cards, asylum, refugees."
+    },
+    {
+      "timestamp": [468.56, 471.16],
+      "text": " That's its own entire industry and category."
+    },
+    {
+      "timestamp": [471.9, 479.4],
+      "text": " But when it comes to – and I'll stick to employment-based because it's this massive category that hundreds of thousands of people apply for every year."
+    },
+    {
+      "timestamp": [480.08, 482.5],
+      "text": " And so I'll give you some history, which is in 1990."
+    },
+    {
+      "timestamp": [482.48528000000005, 487.80528000000004],
+      "text": " the U.S. established limitations on the H-1B visa."
+    },
+    {
+      "timestamp": [488.08528000000007, 492.74528000000004],
+      "text": " That's usually what most people recognize when they think about high-skilled immigration."
+    },
+    {
+      "timestamp": [492.74528000000004, 498.40528000000006],
+      "text": " It was a category that was invented for specialty occupations so that the United States could attract"
+    },
+    {
+      "timestamp": [498.40528000000006, 504.52528000000007],
+      "text": " and hire foreign nationals to do specific roles, everything from distributed systems engineering"
+    },
+    {
+      "timestamp": [504.52528000000007, 508.7652800000001],
+      "text": " to management consultants to accounting."
+    },
+    {
+      "timestamp": [509.68528000000003, 517.22528],
+      "text": " And so these are these very specific categories that in 1990 we said, OK, we will allow 65,000 of them a year."
+    },
+    {
+      "timestamp": [517.82528, 523.5252800000001],
+      "text": " And the trouble is that there are many, many more people."
+    },
+    {
+      "timestamp": [524.1452800000001, 526.46528],
+      "text": " There's like over demand and there is supply."
+    },
+    {
+      "timestamp": [529.3852800000001, 536.4052800000001],
+      "text": " many more people, there's like over demand and there is supply. And so the cap, which is 65,000 H-1Bs every year in 1997, if I remember correctly, basically reached its cap already. So every year"
+    },
+    {
+      "timestamp": [536.4052800000001, 542.44528],
+      "text": " there are more people registering for the visa itself than there are slots. And then that number"
+    },
+    {
+      "timestamp": [542.44528, 548.58528],
+      "text": " has only increased like dramatically over the last 10 years. And so you think about last year,"
+    },
+    {
+      "timestamp": [548.92528, 557.30528],
+      "text": " same 65,000 spots, 780,000 people registered. And so you're talking about the vast, vast majority"
+    },
+    {
+      "timestamp": [557.30528, 563.20528],
+      "text": " of people who do immediately just are almost certainly like not going to get it. And so we've"
+    },
+    {
+      "timestamp": [563.20528, 575.30528],
+      "text": " created a system where some of the most incredibly talented people who come from every corner of the globe gets chucked into a lottery system, irrespective of their degree, irrespective of their work experience."
+    },
+    {
+      "timestamp": [576.04528, 584.86528],
+      "text": " They are beholden to a category that basically that largely does them a disservice because the likelihood of them getting it every year is pretty low."
+    },
+    {
+      "timestamp": [585.1452800000001, 588.8852800000001],
+      "text": " Right. So that's currently how most of employment-based"
+    },
+    {
+      "timestamp": [588.8852800000001, 597.08528],
+      "text": " immigration works. And the big insight that happened is I think America is starting to take"
+    },
+    {
+      "timestamp": [597.08528, 601.36528],
+      "text": " its immigration problem seriously, because this has been a problem for a really long time."
+    },
+    {
+      "timestamp": [601.36528, 610.22528],
+      "text": " You see it in green cards as well, where there's only 200, like 250,000 green cards that are also issued a"
+    },
+    {
+      "timestamp": [610.22528, 615.18528],
+      "text": " year. And there are millions of people across America who are also seeking to become permanent"
+    },
+    {
+      "timestamp": [615.18528, 621.9052800000001],
+      "text": " presidents. And that's why you often hear headlines about backlogs and 10-year wait times, and"
+    },
+    {
+      "timestamp": [621.9052800000001, 627.4852800000001],
+      "text": " especially, you know, impacting like Indian or Chinese or Mexican or, you know, certain nationalities more"
+    },
+    {
+      "timestamp": [627.4852800000001, 633.4052800000001],
+      "text": " heavily than others. And that has reached kind of a peak, I think, over the last couple of years,"
+    },
+    {
+      "timestamp": [633.46528, 640.12528],
+      "text": " because we're recognizing that people are leaving, right? As in all the other countries over the last"
+    },
+    {
+      "timestamp": [640.12528, 648.66528],
+      "text": " couple of years, you talk about a global war for talent, right? Canada, Australia, the UK, Portugal, even countries like Estonia."
+    },
+    {
+      "timestamp": [648.96528, 653.7652800000001],
+      "text": " They're saying, amazing. Great. We had a pandemic and people went remote."
+    },
+    {
+      "timestamp": [653.9852800000001, 657.4852800000001],
+      "text": " You want to come work here? You want to build a company here? By all means."
+    },
+    {
+      "timestamp": [657.62528, 663.2252800000001],
+      "text": " Like we'll make it super easy for you to fill out an online application effectively and you can be here in a couple of weeks."
+    },
+    {
+      "timestamp": [663.2252800000001, 669.6452800000001],
+      "text": " And so not only has our current immigration system failed our our foreign"
+    },
+    {
+      "timestamp": [669.6452800000001, 674.7852800000001],
+      "text": " national our our immigrants the people who want to be here every other country around the world"
+    },
+    {
+      "timestamp": [674.7852800000001, 681.08528],
+      "text": " that wants to compete and build um build like new technologies or be the home for the next google or"
+    },
+    {
+      "timestamp": [681.08528, 689.4052800000001],
+      "text": " the next you know nvidia um they are attracting talent from all over the globe in a way that is meaningful."
+    },
+    {
+      "timestamp": [689.4052800000001, 697.84528],
+      "text": " Like it is not necessarily going to be the case that the U.S. continues to be the default destination when every other country is now catching up."
+    },
+    {
+      "timestamp": [698.1452800000001, 703.86528],
+      "text": " How does the system traditionally work? Like are individuals using agencies?"
+    },
+    {
+      "timestamp": [703.86528, 709.62528],
+      "text": " Do they do it through their employer? And how do you even like educate yourself on trying to get it done?"
+    },
+    {
+      "timestamp": [710.9052800000001, 716.7852800000001],
+      "text": " So I've spent the last year and a half, almost two years now as an immigration consultant."
+    },
+    {
+      "timestamp": [717.1452800000001, 719.12528],
+      "text": " And you have to register with the State Department."
+    },
+    {
+      "timestamp": [719.12528, 730.9052800000001],
+      "text": " And as I've become much more familiar with this whole system and process and been able to speak with thousands of people who have gone through this process and then eventually started helping them prepare their applications."
+    },
+    {
+      "timestamp": [731.5252800000001, 733.06528],
+      "text": " That was like my learning curve."
+    },
+    {
+      "timestamp": [733.8852800000001, 736.2852800000001],
+      "text": " And what that exposed is actually a lot."
+    },
+    {
+      "timestamp": [736.36528, 742.0052800000001],
+      "text": " There's a lot of misconceptions and most people don't know what they don't know."
+    },
+    {
+      "timestamp": [742.0052800000001, 744.5252800000001],
+      "text": " And so there's this huge knowledge gap in the market."
+    },
+    {
+      "timestamp": [745.10528, 748.38528],
+      "text": " And what happens is for most work visas, you do"
+    },
+    {
+      "timestamp": [748.38528, 753.38528],
+      "text": " have to have an employer. That is true. And some visa categories have an educational requirement."
+    },
+    {
+      "timestamp": [753.92528, 759.7852800000001],
+      "text": " So if you're familiar with something like the TN, that is for Canadians and Mexican nationals."
+    },
+    {
+      "timestamp": [760.16528, 766.12528],
+      "text": " It is specifically if you have a bachelor's degree or equivalent work experience and your role in the"
+    },
+    {
+      "timestamp": [766.12528, 773.38528],
+      "text": " U.S. is going to be tied to an employer for a specific category, like a classification that is listed as part of"
+    },
+    {
+      "timestamp": [773.38528, 778.4852800000001],
+      "text": " the TN. The H-1Bs are similar in the same way. Some educational requirement, you need to have"
+    },
+    {
+      "timestamp": [778.4852800000001, 790.80528],
+      "text": " an employer, you have to fit the classification that USCIS is expecting. Now, what's unique about the last two years, let's say, is that the Biden"
+    },
+    {
+      "timestamp": [790.80528, 795.66528],
+      "text": " administration has basically said, oh, we actually really need STEM talent in this country, and we're"
+    },
+    {
+      "timestamp": [795.66528, 802.7652800000001],
+      "text": " doing a poor job of supporting them. And lawyers are great and experts in their domain, but they're"
+    },
+    {
+      "timestamp": [802.7652800000001, 813.30528],
+      "text": " not often incentivized to get creative. And something interesting that I've observed about the immigration industry is that if you are an extraordinarily talented legal professional,"
+    },
+    {
+      "timestamp": [813.88528, 830.2452800000001],
+      "text": " your incentive is not necessarily to go into immigration because you will probably earn a lot more going into corporate law or contract management negotiation. And so immigration tends to be made up of a smattering of boutique"
+    },
+    {
+      "timestamp": [830.2452800000001, 835.84528],
+      "text": " law firms, like immigration attorneys who have set up their own shops with a handful of other,"
+    },
+    {
+      "timestamp": [835.84528, 840.4852800000001],
+      "text": " you know, partners and attorneys that they work with and a small army of paralegals and legal"
+    },
+    {
+      "timestamp": [840.4852800000001, 849.86528],
+      "text": " assistants. And there's a couple of like big, big law firms like Fragament or Erickson or Ogletree that also do big visa support."
+    },
+    {
+      "timestamp": [850.34528, 853.94528],
+      "text": " But really, it's made up of a lot of like tiny boutique firms."
+    },
+    {
+      "timestamp": [854.9652800000001, 866.6452800000001],
+      "text": " And so oftentimes there's information asymmetry when someone who is interested in a visa goes to an attorney and they say, hey, I think I need to I need to work visa."
+    },
+    {
+      "timestamp": [866.80528, 868.42528],
+      "text": " And so they get a default answer."
+    },
+    {
+      "timestamp": [868.42528, 869.4052800000001],
+      "text": " It's like, OK, fine."
+    },
+    {
+      "timestamp": [869.5052800000001, 872.9852800000001],
+      "text": " Like the H-1B, like we'll work with your employer and we'll submit you into the lottery."
+    },
+    {
+      "timestamp": [873.5052800000001, 877.82528],
+      "text": " But it's kind of like, well, but my likelihood of getting the lottery is like potentially"
+    },
+    {
+      "timestamp": [877.82528, 879.0052800000001],
+      "text": " a single digit percentages."
+    },
+    {
+      "timestamp": [879.32528, 880.7052800000001],
+      "text": " And so what are my other options?"
+    },
+    {
+      "timestamp": [881.10528, 886.12528],
+      "text": " And the lawyers not necessarily always incentivize to get creative and tell you a different answer."
+    },
+    {
+      "timestamp": [891.58528, 897.5052800000001],
+      "text": " And then the employer doesn't always know what they don't know. Right. And so they go, well, let us ask the attorney. And so what ends up happening is lots of individuals who are high"
+    },
+    {
+      "timestamp": [897.5052800000001, 902.68528],
+      "text": " agency will go and find out. They'll ask their friends. They'll say, hey, like, did you like,"
+    },
+    {
+      "timestamp": [902.80528, 907.7452800000001],
+      "text": " what did you do? Because I don't really want to go back to, you know, Europe or wherever. I"
+    },
+    {
+      "timestamp": [907.7452800000001, 912.56528],
+      "text": " don't want to, or I don't want Google to have to move me to Canada. I'd rather be, I'd rather stay"
+    },
+    {
+      "timestamp": [912.56528, 917.62528],
+      "text": " here. And this is particularly painful, especially if you're a foreign national who came here for"
+    },
+    {
+      "timestamp": [917.62528, 928.0252800000001],
+      "text": " school and you graduated and you've spent a couple of years in the U.S. and you're getting your job and you don't have a clear way to stay. And so one of the things that's happened over the last couple"
+    },
+    {
+      "timestamp": [928.0252800000001, 933.7652800000001],
+      "text": " years is there are these existing paths in the immigration world that are underused. And so the"
+    },
+    {
+      "timestamp": [933.7652800000001, 940.34528],
+      "text": " O-1, the J-1, the SAMOPT extension, which people are familiar about, but is now expanded. And this"
+    },
+    {
+      "timestamp": [940.34528, 949.12528],
+      "text": " is the Biden administration saying, oh my gosh, we are failing best like technical talent in the country that are already here or want to be here."
+    },
+    {
+      "timestamp": [949.38528, 955.12528],
+      "text": " And how do we help evangelize these existing paths so that they can be more accessible?"
+    },
+    {
+      "timestamp": [955.7052800000001, 959.2852800000001],
+      "text": " And if more people learn about them, then they can self-advocate for them."
+    },
+    {
+      "timestamp": [959.86528, 964.9852800000001],
+      "text": " And this is a bit of a different approach because, I don't know, like a decade."
+    },
+    {
+      "timestamp": [965.0143449999999, 971.0143449999999],
+      "text": " or 15 years ago, the tech industry like took a really concerted effort to push on immigration"
+    },
+    {
+      "timestamp": [971.0143449999999, 977.494345],
+      "text": " because they recognize like what an important policy problem this is. And a lot of the good"
+    },
+    {
+      "timestamp": [977.494345, 981.5143449999999],
+      "text": " things that did come out of that were great. We should have an entrepreneur visa or we should"
+    },
+    {
+      "timestamp": [981.5143449999999, 986.5743449999999],
+      "text": " have like its own like new category. And there's been like a tremendous amount of like valiant"
+    },
+    {
+      "timestamp": [986.5743449999999, 993.954345],
+      "text": " effort and money and, you know, put into that, but creating like new policies is just hard oftentimes."
+    },
+    {
+      "timestamp": [994.6743449999999, 997.074345],
+      "text": " And the quote unquote,"
+    },
+    {
+      "timestamp": [997.214345, 1000.2743449999999],
+      "text": " like hack right now is actually there's a lot of categories that already"
+    },
+    {
+      "timestamp": [1000.2743449999999, 1003.214345],
+      "text": " exist, but they're only used by like 10,000,"
+    },
+    {
+      "timestamp": [1003.354345, 1006.854345],
+      "text": " 15,000 people every year when really they're uncapped."
+    },
+    {
+      "timestamp": [1007.094345, 1009.6343449999999],
+      "text": " And actually if more people knew about them,"
+    },
+    {
+      "timestamp": [1009.6343449999999, 1012.6943449999999],
+      "text": " they can self select into them."
+    },
+    {
+      "timestamp": [1013.354345, 1015.6943449999999],
+      "text": " And so the O-1, we can dive into that as well."
+    },
+    {
+      "timestamp": [1015.8143449999999, 1023.114345],
+      "text": " But the O-1 is like the big visa category that I think is basically America's best kept secret right now for high skilled immigrants."
+    },
+    {
+      "timestamp": [1029.054345, 1033.834345],
+      "text": " the startup industry is like starting to pay attention and realize that this is like an incredible opportunity to help 50,000 more people get, get,"
+    },
+    {
+      "timestamp": [1033.834345, 1036.2543449999998],
+      "text": " get visas in the U S if not more."
+    },
+    {
+      "timestamp": [1037.334345, 1041.294345],
+      "text": " But that like, we're just now catching onto that wave."
+    },
+    {
+      "timestamp": [1042.314345, 1045.554345],
+      "text": " Yeah. So let's actually, let's break that down."
+    },
+    {
+      "timestamp": [1045.634345, 1051.434345],
+      "text": " So you offer services for a handful of different kinds of visas with Lighthouse."
+    },
+    {
+      "timestamp": [1052.294345, 1055.034345],
+      "text": " What are the main offerings that you provide?"
+    },
+    {
+      "timestamp": [1055.2543449999998, 1057.4543449999999],
+      "text": " I will start with the O-1 because that's our bread and butter."
+    },
+    {
+      "timestamp": [1058.574345, 1063.1943449999999],
+      "text": " This is what's historically known as the Einstein visa or colloquially."
+    },
+    {
+      "timestamp": [1063.1943449999999, 1066.9743449999999],
+      "text": " Lots of people are a bit put off by that and rightfully."
+    },
+    {
+      "timestamp": [1067.514345, 1070.2343449999998],
+      "text": " And so USCIS calls it the extraordinary alien visa."
+    },
+    {
+      "timestamp": [1071.294345, 1079.074345],
+      "text": " And historically, most people didn't apply because you look on the USCIS website and it says,"
+    },
+    {
+      "timestamp": [1079.074345, 1084.294345],
+      "text": " have you won an internationally recognized or nationally recognized award? And examples are"
+    },
+    {
+      "timestamp": [1084.294345, 1091.7543449999998],
+      "text": " like a Nobel Peace Prize or an Oscar. And if you haven't won one of those, like, you know, you look at that and"
+    },
+    {
+      "timestamp": [1091.7543449999998, 1098.2743449999998],
+      "text": " you go, well, I'm never going to be that. And so a lot of people don't even think about this as an"
+    },
+    {
+      "timestamp": [1098.2743449999998, 1105.334345],
+      "text": " option for me. But the crazy thing is, it is a lot more accessible than people think. It is a story"
+    },
+    {
+      "timestamp": [1105.334345, 1110.294345],
+      "text": " about what makes you special and what makes you an expert in something. And ultimately,"
+    },
+    {
+      "timestamp": [1115.894345, 1121.294345],
+      "text": " what we're aiming to do with this is support more people and being able to identify what is it that you've done in your professional or academic career that makes, that demonstrates that you"
+    },
+    {
+      "timestamp": [1121.294345, 1127.2343449999998],
+      "text": " map to a couple of the requirements that USCIS is looking for. And if you do qualify, then it's a"
+    },
+    {
+      "timestamp": [1127.2343449999998, 1131.1943449999999],
+      "text": " three-year work visa. There's no minimum educational requirement."
+    },
+    {
+      "timestamp": [1131.814345, 1135.094345],
+      "text": " There's no prevailing wage requirement like the H-1B."
+    },
+    {
+      "timestamp": [1135.294345, 1139.294345],
+      "text": " And so you don't have to pay yourself like a salary that the government designates."
+    },
+    {
+      "timestamp": [1140.1943449999999, 1144.154345],
+      "text": " It is renewable in perpetuity on an annual basis."
+    },
+    {
+      "timestamp": [1144.614345, 1151.534345],
+      "text": " And there's no country caps, which means that right now there are 10,000 people who apply roughly every year."
+    },
+    {
+      "timestamp": [1151.674345, 1158.2543449999998],
+      "text": " And only less than half of them are what you would call STEM talent, like individuals with technical degrees."
+    },
+    {
+      "timestamp": [1158.934345, 1162.914345],
+      "text": " And there's no reason that it can't be 10 times that."
+    },
+    {
+      "timestamp": [1162.914345, 1169.1943449999999],
+      "text": " And so part of our vision is can you like we want to 10x the number of people getting O1s approved,"
+    },
+    {
+      "timestamp": [1170.054345, 1177.574345],
+      "text": " is can you like we want to 10x the number of people getting O1s approved because there's no reason why there are 65,000 people getting H1Bs and only 10,000 people getting O1s and the crazy"
+    },
+    {
+      "timestamp": [1177.574345, 1181.7143449999999],
+      "text": " crazy part is most people who are familiar with the O1s outside of the tech industry"
+    },
+    {
+      "timestamp": [1181.7143449999999, 1187.894345],
+      "text": " it is historically largely used by the entertainment industry and so Hollywood figured"
+    },
+    {
+      "timestamp": [1187.894345, 1194.414345],
+      "text": " out something that Silicon Valley did not which which is you get really, really talented people from overseas. And how do you"
+    },
+    {
+      "timestamp": [1194.414345, 1198.374345],
+      "text": " help them have work authorization and be able to stick around in the country for long enough?"
+    },
+    {
+      "timestamp": [1198.854345, 1203.094345],
+      "text": " And so the O is super popular amongst models and athletes and musicians and,"
+    },
+    {
+      "timestamp": [1203.094345, 1210.414345],
+      "text": " and, you know, like all the musicians and like Justin Bieber, basically."
+    },
+    {
+      "timestamp": [1212.7143449999999, 1212.854345],
+      "text": " And instead we are."
+    },
+    {
+      "timestamp": [1222.674345, 1226.854345],
+      "text": " And while we are allowing brilliant people in the entertainment industry to figure this out, we're letting down, you know, the quantum physicist who came here for their Ph.D. And then now doesn't have doesn't feel like they have an option on how to stay."
+    },
+    {
+      "timestamp": [1227.114345, 1232.834345],
+      "text": " Wow. OK, so we have models and we have actresses, we have celebrities"
+    },
+    {
+      "timestamp": [1232.834345, 1238.094345],
+      "text": " and now we need to help out the quantum physicists. Totally. The quantum physicists,"
+    },
+    {
+      "timestamp": [1238.554345, 1243.6943449999999],
+      "text": " the, and right now San Francisco in particular feels like a really, really special place because"
+    },
+    {
+      "timestamp": [1243.6943449999999, 1250.9743449999999],
+      "text": " it is the hotbed for AI. And then just like the West Coast right now feels like really, really special in terms of,"
+    },
+    {
+      "timestamp": [1251.2943449999998, 1256.994345],
+      "text": " you know, there's like a hard tech boom. Like in I think you had a couple of great folks on the on"
+    },
+    {
+      "timestamp": [1256.994345, 1265.434345],
+      "text": " the podcast, like Delian and Chris, and you know, the whole Gundo area. And yeah, the Bay Area right"
+    },
+    {
+      "timestamp": [1265.434345, 1270.2743449999998],
+      "text": " now just feels really, really electric. And beyond the vibes, like agglomeration effects"
+    },
+    {
+      "timestamp": [1270.2743449999998, 1277.014345],
+      "text": " are real, like on an economic basis, where once you have a dense population of really smart,"
+    },
+    {
+      "timestamp": [1277.534345, 1285.2943449999998],
+      "text": " highly educated or productive people that tends to have virtuous cycle effects where more really"
+    },
+    {
+      "timestamp": [1285.2943449999998, 1291.2143449999999],
+      "text": " talented, productive people want to be there, because there's a network effect in the community around that."
+    },
+    {
+      "timestamp": [1291.854345, 1295.354345],
+      "text": " And that if you and that's really hard to recreate."
+    },
+    {
+      "timestamp": [1295.354345, 1301.514345],
+      "text": " So I'm like a big believer in, you know, emerging startup ecosystems across the country, across the world."
+    },
+    {
+      "timestamp": [1302.374345, 1307.994345],
+      "text": " But the thing that I think makes like the Bay Area in particular still really special is that, you know,"
+    },
+    {
+      "timestamp": [1308.054345, 1316.574345],
+      "text": " for these like highly technical industries and profiles of people, they still want to come here. Yeah. We love the El Segundo"
+    },
+    {
+      "timestamp": [1316.574345, 1324.914345],
+      "text": " gang and we love the AI talent that's coming out of DeepMind and OpenAI. Like the momentum is real"
+    },
+    {
+      "timestamp": [1324.914345, 1333.054345],
+      "text": " and it's really driving a lot of progress and a lot of new jobs. And all this talent is just flooding the state."
+    },
+    {
+      "timestamp": [1333.834345, 1335.074345],
+      "text": " So that's a real thing."
+    },
+    {
+      "timestamp": [1335.134345, 1337.2343449999998],
+      "text": " And I want to go back to a bit on your career."
+    },
+    {
+      "timestamp": [1337.394345, 1340.854345],
+      "text": " You were an investor and you invested in AI and robotics."
+    },
+    {
+      "timestamp": [1341.874345, 1343.114345],
+      "text": " Now you have a company."
+    },
+    {
+      "timestamp": [1343.114345, 1350.874345],
+      "text": " We're in this amazing renaissance of the shift in technology and how platforms of tech stocks are being made."
+    },
+    {
+      "timestamp": [1351.414345, 1357.2343449999998],
+      "text": " And so this is traditionally like a service-based industry. I'd love to get your perspective on how"
+    },
+    {
+      "timestamp": [1357.2343449999998, 1362.594345],
+      "text": " you're building it differently and how you're looking to make it much more efficient and"
+    },
+    {
+      "timestamp": [1362.594345, 1367.2143449999999],
+      "text": " scalable. I love this question. I think right now is a really special time to be building a"
+    },
+    {
+      "timestamp": [1367.2143449999999, 1371.994345],
+      "text": " vertically integrated business, especially when you have a problem that is discrete and tractable."
+    },
+    {
+      "timestamp": [1372.7943449999998, 1377.414345],
+      "text": " And so I'll define it as like there are complicated problems"
+    },
+    {
+      "timestamp": [1377.414345, 1378.574345],
+      "text": " and there are complex problems."
+    },
+    {
+      "timestamp": [1378.914345, 1379.7743449999998],
+      "text": " It's like a two-by-two."
+    },
+    {
+      "timestamp": [1380.2743449999998, 1384.034345],
+      "text": " And complicated problems are ones where it's a discrete thing"
+    },
+    {
+      "timestamp": [1384.034345, 1386.594345],
+      "text": " where the steps are known and the output is very clear."
+    },
+    {
+      "timestamp": [1386.814345, 1389.074345],
+      "text": " It's like it's either a yes or a no, it's done or not."
+    },
+    {
+      "timestamp": [1389.494345, 1393.514345],
+      "text": " And complex problems are like drug discovery, like biotech is like full of complex"
+    },
+    {
+      "timestamp": [1393.514345, 1397.994345],
+      "text": " problems or like, you don't really know what the output is going to be. I really like complicated"
+    },
+    {
+      "timestamp": [1397.994345, 1403.394345],
+      "text": " problems. And what, what's exciting about Lighthouse is actually, it's like a really"
+    },
+    {
+      "timestamp": [1403.394345, 1416.414345],
+      "text": " great complicated problem. And what customers experience, like people who have gone through this process experience, is it's slow, it's confusing, and it takes forever, basically."
+    },
+    {
+      "timestamp": [1416.6943449999999, 1419.654345],
+      "text": " And you have, like, a terrible, terrible customer experience."
+    },
+    {
+      "timestamp": [1420.014345, 1424.914345],
+      "text": " And so how I think about our company is actually it's like an iceberg where, you know,"
+    },
+    {
+      "timestamp": [1424.914345, 1431.394345],
+      "text": " 30% of what users see is ensuring that we build in a delightful user experience so that this"
+    },
+    {
+      "timestamp": [1431.394345, 1437.854345],
+      "text": " process doesn't feel so cumbersome and onerous, right? You want to make sure that the user has"
+    },
+    {
+      "timestamp": [1437.854345, 1441.854345],
+      "text": " an amazing experience. They want transparency into the process. They want to feel like they're"
+    },
+    {
+      "timestamp": [1441.854345, 1447.7943449999998],
+      "text": " in good hands. They don't actually always want to talk to an attorney, to be honest, and be on the"
+    },
+    {
+      "timestamp": [1447.80494, 1451.22494],
+      "text": " these, you know, hundred line long, like email threads."
+    },
+    {
+      "timestamp": [1451.30494, 1453.46494],
+      "text": " They just want to know what's the status of my application."
+    },
+    {
+      "timestamp": [1453.96494, 1455.82494],
+      "text": " What information do I need to give you?"
+    },
+    {
+      "timestamp": [1456.30494, 1459.48494],
+      "text": " What information do I do you need from me?"
+    },
+    {
+      "timestamp": [1459.48494, 1461.44494],
+      "text": " And then once, like, is it ready?"
+    },
+    {
+      "timestamp": [1461.66494, 1463.54494],
+      "text": " That's basically like what people want to know."
+    },
+    {
+      "timestamp": [1464.12494, 1465.58494],
+      "text": " And they want to know that it's going to get done well."
+    },
+    {
+      "timestamp": [1466.38494, 1470.30494],
+      "text": " And so how we do that is actually like the 70% under the hood."
+    },
+    {
+      "timestamp": [1470.48494, 1472.88494],
+      "text": " And that's where I think like vertically integrated"
+    },
+    {
+      "timestamp": [1472.88494, 1477.74494],
+      "text": " software and operational processes is like really exciting because we're combining the domain"
+    },
+    {
+      "timestamp": [1477.74494, 1485.46494],
+      "text": " expertise of how do these applications come together, which historically is like done by"
+    },
+    {
+      "timestamp": [1485.46494, 1489.34494],
+      "text": " lawyers, paralegals, and legal assistants, and then combine that with proprietary software,"
+    },
+    {
+      "timestamp": [1489.76494, 1495.06494],
+      "text": " a lot of which now can be AI-ified, right? I put it in quotes"
+    },
+    {
+      "timestamp": [1495.06494, 1501.10494],
+      "text": " because I don't lead with this being like a crazy AI company necessarily, but it is true that when"
+    },
+    {
+      "timestamp": [1501.10494, 1508.64494],
+      "text": " I can give you an example where if you have a researcher who's applying for an O-1 or a green"
+    },
+    {
+      "timestamp": [1508.64494, 1514.90494],
+      "text": " card, like there are probably anywhere from three to 15 pages worth of content"
+    },
+    { "timestamp": [1514.90494, 1516.14494], "text": " that we have to write" },
+    {
+      "timestamp": [1516.14494, 1518.78494],
+      "text": " that is a reflection of the research that they have done."
+    },
+    {
+      "timestamp": [1519.88494, 1522.22494],
+      "text": " An average person is not going to know,"
+    },
+    {
+      "timestamp": [1522.36494, 1528.68494],
+      "text": " you know, what the original contributions are"
+    },
+    {
+      "timestamp": [1528.68494, 1535.04494],
+      "text": " of the algorithm that built AlphaGo, right? And it's probably, like, hundreds"
+    },
+    {
+      "timestamp": [1535.04494, 1540.74494],
+      "text": " of pages worth of research. We have models now that actually can summarize that quite concisely"
+    },
+    {
+      "timestamp": [1540.74494, 1545.72494],
+      "text": " and effectively. And then on top of that, we're building an hour refinements to be able to say,"
+    },
+    {
+      "timestamp": [1546.00494, 1549.86494],
+      "text": " okay, great, now how do we make sure that this meets, like, the standard that we need it to be"
+    },
+    {
+      "timestamp": [1549.86494, 1553.14494],
+      "text": " in a way that the government will understand and grok."
+    },
+    {
+      "timestamp": [1554.04494, 1559.4249399999999],
+      "text": " Right. And so it's that last like 20 to 30 percent, that last mile of human judgment and domain expertise."
+    },
+    {
+      "timestamp": [1559.4249399999999, 1567.60494],
+      "text": " That's actually really, really special. And the rest of it is like saving the people who've been doing this in a certain way for decades."
+    },
+    {
+      "timestamp": [1568.34494, 1572.52494],
+      "text": " The pain of, oh, my gosh, well, now I have to go Google a bunch of things."
+    },
+    {
+      "timestamp": [1574.78494, 1581.26494],
+      "text": " the pain of, oh my gosh, well, now I have to go Google a bunch of things. And then I go and open up Adobe and I drag these files in and I've now spent six hours putting together a 300 page"
+    },
+    {
+      "timestamp": [1581.26494, 1587.10494],
+      "text": " application. And I've not done actual reasoning in it. It was literally just the mundane"
+    },
+    {
+      "timestamp": [1587.10494, 1596.10494],
+      "text": " drudgery of like compiling. Yeah. And you're not only saving costs in terms of legal fees, right? But"
+    },
+    {
+      "timestamp": [1596.10494, 1599.9449399999999],
+      "text": " you're also like maximizing your own margin because it's just much more efficient."
+    },
+    {
+      "timestamp": [1600.90494, 1605.00494],
+      "text": " Totally, totally. And that actually affords, you know, on our team, we think about this in the"
+    },
+    {
+      "timestamp": [1605.00494, 1610.34494],
+      "text": " context of how did that free up what we need to be doing and what we can be doing. And that means"
+    },
+    {
+      "timestamp": [1610.34494, 1613.06494],
+      "text": " we can spend more time interacting with customers,"
+    },
+    {
+      "timestamp": [1613.84494, 1617.04494],
+      "text": " giving them the advice that they may or may not, you know,"
+    },
+    {
+      "timestamp": [1617.04494, 1622.00494],
+      "text": " that they may be looking for because ultimately people want to feel there are"
+    },
+    {
+      "timestamp": [1622.00494, 1625.02494],
+      "text": " two things that people like care about most in this industry that is like"
+    },
+    {
+      "timestamp": [1625.02494, 1628.96494],
+      "text": " trust and speed, right? And trust is a function of quality, right?"
+    },
+    {
+      "timestamp": [1628.98494, 1631.56494],
+      "text": " They want to know that if you are handling my application,"
+    },
+    {
+      "timestamp": [1631.56494, 1639.10494],
+      "text": " it will get done well and you will help me prepare it effectively. And if I have a hairy question, that the right people"
+    },
+    {
+      "timestamp": [1639.10494, 1643.9249399999999],
+      "text": " will be around the table to be able to help me get the answers I need. And then speed, which is"
+    },
+    {
+      "timestamp": [1643.9249399999999, 1649.22494],
+      "text": " there's a huge difference between someone being able to start working for a U.S.-based company"
+    },
+    {
+      "timestamp": [1649.22494, 1652.9249399999999],
+      "text": " in four weeks versus four months."
+    },
+    {
+      "timestamp": [1659.76494, 1659.90494],
+      "text": " And the amazing thing that I will give USCIS a ton of credit for is that over the last couple of years,"
+    },
+    {
+      "timestamp": [1664.4449399999999, 1664.90494],
+      "text": " they've really, really tried to make things a lot more efficient, rolling out digital processes,"
+    },
+    {
+      "timestamp": [1669.98494, 1670.82494],
+      "text": " like the entire H-1B application registration process this year was digital and all online,"
+    },
+    {
+      "timestamp": [1677.32494, 1677.70494],
+      "text": " which is kind of amazing, and giving options to do premium processing."
+    },
+    {
+      "timestamp": [1681.96494, 1682.30494],
+      "text": " And so that means depending on the visa category, so for like something like an O,"
+    },
+    {
+      "timestamp": [1685.30494, 1685.52494],
+      "text": " you pay a couple thousand dollars to USCIS,"
+    },
+    {
+      "timestamp": [1688.90494, 1689.28494],
+      "text": " and it means you are guaranteed an outcome within 15 calendar days."
+    },
+    {
+      "timestamp": [1694.32494, 1700.08494],
+      "text": " That's like insane and amazing, which means that if you can prepare your application in a matter of weeks, maybe days, right, then you can get an answer in under 30 days."
+    },
+    {
+      "timestamp": [1700.40494, 1709.08494],
+      "text": " And that is like a huge time saver and mental, like mental load off of like the people who are"
+    },
+    {
+      "timestamp": [1709.08494, 1716.82494],
+      "text": " going through this, because it is oftentimes like the most stressful thing for them. I thing for them curious like as you think about growing the platform out in the future if you're"
+    },
+    {
+      "timestamp": [1716.82494, 1722.82494],
+      "text": " thinking about partnerships or or creating some sort of marketplace my gosh um so many exciting"
+    },
+    {
+      "timestamp": [1722.82494, 1729.58494],
+      "text": " experiments that we want to do uh just in terms of in terms of core partnerships where we work with"
+    },
+    {
+      "timestamp": [1729.58494, 1736.30494],
+      "text": " and meet amazing amazing prospective customers you know we we work with the good humans at OnDeck, at HFZero,"
+    },
+    {
+      "timestamp": [1736.4449399999999, 1739.32494],
+      "text": " like a couple of these, like, programs where they're already attracting,"
+    },
+    {
+      "timestamp": [1739.46494, 1742.26494],
+      "text": " they're already beacons for, like, really top talent, right?"
+    },
+    {
+      "timestamp": [1742.38494, 1746.22494],
+      "text": " And expanding that is going to be a big focus over the next, like, year plus."
+    },
+    {
+      "timestamp": [1746.98494, 1750.02494],
+      "text": " And then in terms of long-term opportunities,"
+    },
+    {
+      "timestamp": [1751.02494, 1761.6649400000001],
+      "text": " I am really excited by this, like, full stack, like, legal services company that we're building where if we were to follow the customer, like, where does this go, right?"
+    },
+    {
+      "timestamp": [1761.80494, 1765.32494],
+      "text": " I get tons of questions about employment law."
+    },
+    {
+      "timestamp": [1766.14494, 1769.64494],
+      "text": " And so is there a way where some of those things actually, it's, like, pretty consistent."
+    },
+    {
+      "timestamp": [1769.64494, 1770.22494],
+      "text": " Some of those things actually, it's like pretty consistent."
+    },
+    {
+      "timestamp": [1778.62494, 1778.78494],
+      "text": " And not all of them necessarily, again, fall in the camp of this is some edge case that you need someone who has a decade plus of experience,"
+    },
+    {
+      "timestamp": [1780.74494, 1780.90494],
+      "text": " like needs to necessarily give that advice."
+    },
+    {
+      "timestamp": [1787.56494, 1787.64494],
+      "text": " It is actually, oh, okay, can we build, like what are products that we can build there to help individuals understand, okay, great,"
+    },
+    {
+      "timestamp": [1789.72494, 1790.10494],
+      "text": " you've now just gotten a job in the U.S."
+    },
+    {
+      "timestamp": [1796.32494, 1799.26494],
+      "text": " If you're a company, what does that mean for you? Like, how do you need to make sure that you are compliant with the fact that you have foreign nationals on your team and helping teams understand that?"
+    },
+    {
+      "timestamp": [1800.60494, 1803.86494],
+      "text": " The job thing is really interesting because it is true, right?"
+    },
+    {
+      "timestamp": [1803.9449399999999, 1808.20494],
+      "text": " Like, if you're thinking about quitting your job to start a company or join a new company,"
+    },
+    {
+      "timestamp": [1808.40494, 1812.58494],
+      "text": " like, the first thing you're worried about is how do I make sure that my visa status"
+    },
+    {
+      "timestamp": [1812.58494, 1819.98494],
+      "text": " is not jeopardized? And over time, I think really interesting like opportunities to work with"
+    },
+    {
+      "timestamp": [1819.98494, 1829.08494],
+      "text": " companies like HRS systems, ATS systems. I have this like feature in my brain of any recruiter"
+    },
+    {
+      "timestamp": [1829.08494, 1841.36494],
+      "text": " should be able to open up their ATS system and like, you know, all the applicants that come in see like a little like lighthouse button to be able to show that, oh, these people are eligible for XYZ visa."
+    },
+    {
+      "timestamp": [1864.06494, 1864.52494],
+      "text": " There's a pattern or maybe some behavior where it's like if you believe that this process is going to be hard, complicated, take a long time, expensive, you just don't want to deal with it, especially if you're like a fast-growing, early-stage company."
+    },
+    {
+      "timestamp": [1871.54494, 1871.82494],
+      "text": " And so closing that knowledge gap and helping hiring managers and companies realize, like, this doesn't have to be a blocker."
+    },
+    {
+      "timestamp": [1875.9449399999999, 1881.06494],
+      "text": " There is a way that you can make this as simple as like clicking a couple of buttons. And by the way, I've heard you've already helped out a tremendous amount of people in the Bay Area and in, you know,"
+    },
+    {
+      "timestamp": [1881.18494, 1886.40494],
+      "text": " Silicon Valley and tech in general with their visas, anywhere from the Xtropic founders to"
+    },
+    {
+      "timestamp": [1886.40494, 1896.96494],
+      "text": " Lilia to SF Compute, HF0 team, and even some pretty notable uh hard tech founders how do you think about um"
+    },
+    {
+      "timestamp": [1896.96494, 1901.40494],
+      "text": " growing out your services and service level customers throughout this year like do you"
+    },
+    {
+      "timestamp": [1901.40494, 1907.46494],
+      "text": " have goals you want to hit how many people can you help out a month a year what's uh the timeline"
+    },
+    {
+      "timestamp": [1907.46494, 1914.18494],
+      "text": " and kind of piece for that well we are open are open for business. I'm super, like, we have an incredible,"
+    },
+    {
+      "timestamp": [1914.32494, 1919.98494],
+      "text": " incredible team of people who have experience across engineering, operations, legal,"
+    },
+    {
+      "timestamp": [1920.48494, 1926.04494],
+      "text": " legal expertise. So I'm really excited for us to grow. We're already working with several"
+    },
+    {
+      "timestamp": [1926.04494, 1929.80494],
+      "text": " dozen individuals and their companies, and we've got a lot of people that are really"
+    },
+    {
+      "timestamp": [1929.795595, 1937.795595],
+      "text": " got like a wait list of several hundred people. And the goal is this time next year, I hope we've"
+    },
+    {
+      "timestamp": [1937.795595, 1942.4555950000001],
+      "text": " served, you know, a thousand, right, individuals be able to like navigate their immigration,"
+    },
+    {
+      "timestamp": [1942.775595, 1947.6955950000001],
+      "text": " and hopefully means that they can continue to be here and build the great things that they want to."
+    },
+    {
+      "timestamp": [1947.895595, 1953.895595],
+      "text": " A thousand is an amazing goal. If you can help out a thousand people with their careers and"
+    },
+    {
+      "timestamp": [1953.895595, 1956.355595],
+      "text": " maintain their jobs, that's a really"
+    },
+    {
+      "timestamp": [1956.355595, 1962.795595],
+      "text": " great accomplishment. Yeah, there's been a through line in my career that feels like"
+    },
+    {
+      "timestamp": [1962.795595, 1979.875595],
+      "text": " people that I really respect and admire, what are the things that block them? And hindsight 2020, 20 right but or rather we make this story in looking back but when I think about what's been"
+    },
+    {
+      "timestamp": [1979.875595, 1986.1955950000001],
+      "text": " the most rewarding part of like working of building a company of like the career that I've"
+    },
+    {
+      "timestamp": [1986.1955950000001, 1992.875595],
+      "text": " had so far is I've gotten to work with some incredibly talented people and in venture it"
+    },
+    {
+      "timestamp": [1992.875595, 1995.775595],
+      "text": " was great capital is like you're a blocker, like you need"
+    },
+    {
+      "timestamp": [1995.775595, 2000.515595],
+      "text": " money to be able to build your companies. And then at OnDeck, it was community. It was like,"
+    },
+    {
+      "timestamp": [2000.575595, 2005.1955950000001],
+      "text": " great, you need to find your people, whether it's a co-founder or like your first grade hire or that"
+    },
+    {
+      "timestamp": [2005.1955950000001, 2008.515595],
+      "text": " expert that you've been wanting to talk to about like the industry that you want to build in."
+    },
+    {
+      "timestamp": [2008.9555950000001, 2019.555595],
+      "text": " And then now it's like career and like part of career is actually like that immigration component where, hey, this is actually the biggest blocker in you being able to choose what you want to do."
+    },
+    {
+      "timestamp": [2020.415595, 2027.7155950000001],
+      "text": " And the thing that I strongly also believe is that the people who also choose to be here."
+    },
+    {
+      "timestamp": [2027.9355950000001, 2030.755595],
+      "text": " Right. Like I'm an immigrant. I could live elsewhere."
+    },
+    {
+      "timestamp": [2031.375595, 2036.9355950000001],
+      "text": " My parents are serial entrepreneurs. I know nothing, truly nothing in my life other than entrepreneurship."
+    },
+    {
+      "timestamp": [2038.155595, 2041.9355950000001],
+      "text": " And it took us like 11. It took me 11 years to become a citizen."
+    },
+    {
+      "timestamp": [2042.615595, 2047.975595],
+      "text": " And in some ways, that feels like the most American thing you could do, which is to choose to be one."
+    },
+    {
+      "timestamp": [2048.275595, 2057.735595],
+      "text": " That is and maintaining that and helping others. It's an amazing feat, right? Like that's something to be proud of."
+    },
+    {
+      "timestamp": [2059.5355950000003, 2067.335595],
+      "text": " From your experience living in New York and coming to SF, I just, I want to know, Min,"
+    },
+    {
+      "timestamp": [2067.335595, 2073.375595],
+      "text": " is the SF hype real? Would you ever go back to New York? Would you try other cities in America?"
+    },
+    {
+      "timestamp": [2071.515595, 2071.5955950000002],
+      "text": " Would you ever go back to New York?"
+    },
+    {
+      "timestamp": [2073.355595, 2073.695595],
+      "text": " Would you try other cities in America?"
+    },
+    {
+      "timestamp": [2074.315595, 2075.0355950000003],
+      "text": " What are you thinking?"
+    },
+    {
+      "timestamp": [2078.515595, 2079.655595],
+      "text": " Oh, the SF hype never went away."
+    },
+    {
+      "timestamp": [2083.835595, 2084.415595],
+      "text": " I think it is a deeply, deeply special place."
+    },
+    {
+      "timestamp": [2091.975595, 2092.255595],
+      "text": " And if you are ambitious and weird, I think this is, like, San Francisco is, like, the perfect place for that."
+    },
+    {
+      "timestamp": [2095.935595, 2104.795595],
+      "text": " If you're ambitious and cool, I think you live in New York and I'm sure you're weird I think I air probably on like like weird nerd uh therefore west coast"
+    },
+    {
+      "timestamp": [2104.795595, 2110.495595],
+      "text": " and then and this is like me humbling myself because I think in the past life I might have"
+    },
+    {
+      "timestamp": [2110.495595, 2116.495595],
+      "text": " been like ambitious and cool um but my wardrobe has definitely downgraded in San Francisco."
+    },
+    {
+      "timestamp": [2117.0355950000003, 2128.255595],
+      "text": " And then when I'm back in New York, I'm always a little bit shy about, oh, my God, I need to step it up because everybody here is really trendy."
+    },
+    {
+      "timestamp": [2130.175595, 2132.675595],
+      "text": " Yeah, but I think like both cities are amazing."
+    },
+    {
+      "timestamp": [2133.055595, 2136.835595],
+      "text": " I don't really see myself being able to like live anywhere else right now."
+    },
+    { "timestamp": [2137.015595, 2137.675595], "text": " Never say never." },
+    {
+      "timestamp": [2137.855595, 2141.195595],
+      "text": " But I'm like a fully adopted Californian at this point."
+    },
+    {
+      "timestamp": [2142.195595, 2153.0755950000002],
+      "text": " Yeah, it's hard to go back once you have adjusted to how awesome the state of California is, except for the taxes and a lot of other things."
+    },
+    { "timestamp": [2153.275595, 2153.415595], "text": " Right." },
+    {
+      "timestamp": [2153.435595, 2153.615595],
+      "text": " except for the taxes and a lot of other things, right?"
+    },
+    {
+      "timestamp": [2154.435595, 2158.455595],
+      "text": " But like... The most expensive life subscription is how a friend described it to me."
+    },
+    {
+      "timestamp": [2158.5955950000002, 2159.995595],
+      "text": " And it is true."
+    },
+    { "timestamp": [2161.135595, 2161.815595], "text": " It's true." },
+    {
+      "timestamp": [2161.915595, 2163.615595],
+      "text": " But, you know, at least we have sunshine."
+    },
+    {
+      "timestamp": [2164.015595, 2166.5355950000003],
+      "text": " In New York, it's constant dreary weather."
+    },
+    {
+      "timestamp": [2167.915595, 2169.695595],
+      "text": " I also grew up in the area."
+    },
+    {
+      "timestamp": [2169.955595, 2172.255595],
+      "text": " So I just, whenever I go back, I'm like,"
+    },
+    {
+      "timestamp": [2172.495595, 2175.5755950000002],
+      "text": " there's no way I'm ever, there's no way I'm ever living here again."
+    },
+    {
+      "timestamp": [2176.0955950000002, 2178.935595],
+      "text": " Yeah, there's so many beautiful places around the globe."
+    },
+    {
+      "timestamp": [2179.155595, 2185.795595],
+      "text": " You know, I have family in South Korea, I have family in Japan, both incredible, incredible countries and cities."
+    },
+    {
+      "timestamp": [2186.155595, 2187.335595],
+      "text": " And I love visiting."
+    },
+    {
+      "timestamp": [2188.0755950000002, 2197.0355950000003],
+      "text": " But when it comes to, if you want to, like, meet your people and you're kind of, like, young and hungry and a little nerdy, San Francisco can't be beat."
+    },
+    {
+      "timestamp": [2197.295595, 2209.195595],
+      "text": " Like, where else, like, can you go to, like, a party and you end up in, like, a three-hour debate about, I don't know, like, neurotropics, right?"
+    },
+    {
+      "timestamp": [2209.795595, 2212.275595],
+      "text": " Like, where else am I ever going to have that kind of conversation?"
+    },
+    {
+      "timestamp": [2212.375595, 2216.235595],
+      "text": " And maybe you don't want to, but it's certainly never a dull day."
+    },
+    { "timestamp": [2217.215595, 2218.135595], "text": " No, it's not." },
+    {
+      "timestamp": [2218.215595, 2222.975595],
+      "text": " And, like, you might also rub shoulders with Sam Altman and then, like, not be fazed by it."
+    },
+    { "timestamp": [2223.215595, 2223.675595], "text": " That's true." },
+    {
+      "timestamp": [2223.675595, 2228.215595],
+      "text": " Although I will say working on immigration is always interesting, too, here,"
+    },
+    {
+      "timestamp": [2228.335595, 2233.655595],
+      "text": " because, you know, I was talking about how the O-1 in particular is, like, Hollywood figured it out,"
+    },
+    {
+      "timestamp": [2235.715595, 2236.775595],
+      "text": " and then, Silicon Valley is now catching up."
+    },
+    {
+      "timestamp": [2247.175595, 2253.775595],
+      "text": " I think there's a distinct way in which New York handles like celebrity and fame that is like a bit more blasé and like a bit more like not a big deal. Like, cool, you're still a human. And I think probably Silicon Valley could could borrow a little bit of that."
+    },
+    { "timestamp": [2256.175595, 2257.815595], "text": " Yeah, they might." },
+    {
+      "timestamp": [2258.855595, 2261.115595],
+      "text": " But it's all good fun."
+    },
+    {
+      "timestamp": [2261.995595, 2266.275595],
+      "text": " Yeah, you've had some amazing people on, and I feel like Sorcerer's really special."
+    },
+    {
+      "timestamp": [2266.275595, 2273.975595],
+      "text": " And there's a ton of really incredible people right now, what feels like building things that could be generation-defining."
+    },
+    {
+      "timestamp": [2273.895595, 2274.795595],
+      "text": " now what feels like building things that could be generation defining."
+    },
+    {
+      "timestamp": [2280.395595, 2285.715595],
+      "text": " I tend to find, I've found that in looking back and, you know, reviewing like the history of Silicon Valley and like the tech industry, every 15 years or so, there are these like"
+    },
+    {
+      "timestamp": [2285.715595, 2288.0755950000002],
+      "text": " category defining generational companies."
+    },
+    {
+      "timestamp": [2288.755595, 2294.675595],
+      "text": " And you think about the SpaceX launch recently and, you know, seeing Waymo's on the street"
+    },
+    {
+      "timestamp": [2294.675595, 2297.875595],
+      "text": " and knowing that, yeah, that was a decade-plus endeavor."
+    },
+    {
+      "timestamp": [2298.175595, 2302.995595],
+      "text": " And it took, like, lots and lots of capital to be able to finally get to a place"
+    },
+    {
+      "timestamp": [2302.995595, 2306.235595],
+      "text": " where you can have the self-driving future that we imagined."
+    },
+    {
+      "timestamp": [2307.5355950000003, 2314.055595],
+      "text": " And right now feels like a version of that where people are building, like, robotics companies, like, finally,"
+    },
+    {
+      "timestamp": [2314.055595, 2317.5755950000002],
+      "text": " because now you can actually manipulate the physical world with the tools"
+    },
+    {
+      "timestamp": [2317.5755950000002, 2321.415595],
+      "text": " and the underlying compute and the model that we have available."
+    },
+    {
+      "timestamp": [2322.0955950000002, 2326.295595],
+      "text": " You can now build the hard tech companies that are vertically integrated businesses"
+    },
+    {
+      "timestamp": [2326.295595, 2333.5755950000002],
+      "text": " and previously old industries because there's, you know, the cultural lapse of people being able to,"
+    },
+    {
+      "timestamp": [2333.875595, 2334.995595],
+      "text": " people knowing what to do"
+    },
+    {
+      "timestamp": [2334.995595, 2340.935595],
+      "text": " in those industries. And a ton of other companies where I feel like we're just taking a completely,"
+    },
+    {
+      "timestamp": [2341.315595, 2345.5355950000003],
+      "text": " completely fresh eye into the same problems that have existed for a really long time."
+    },
+    {
+      "timestamp": [2346.135595, 2353.855595],
+      "text": " Yeah, it's absolutely true. I mean, I'm even astonished. I had Delian from Varda on,"
+    },
+    {
+      "timestamp": [2354.415595, 2357.795595],
+      "text": " I've had Chris from Hadrian on. And even since I've had"
+    },
+    {
+      "timestamp": [2357.795595, 2363.815595],
+      "text": " them on, they've had huge, like even more announcements and like milestones. And so it's"
+    },
+    {
+      "timestamp": [2363.815595, 2368.115595],
+      "text": " like the velocity is like really taking off, especially with them. So happy I had them on."
+    },
+    {
+      "timestamp": [2368.175595, 2375.675595],
+      "text": " If anybody else wants to come on that is about to do a lot of stuff, please let me know. But the curve is taking off,"
+    },
+    {
+      "timestamp": [2375.715595, 2379.875595],
+      "text": " and a lot of people are using tools that are out there to really progress."
+    },
+    {
+      "timestamp": [2380.715595, 2383.435595],
+      "text": " And luckily, like, in your benefit, right,"
+    },
+    {
+      "timestamp": [2383.435595, 2388.875595],
+      "text": " like a lot of really great talent is coming to service that or, you know, operate."
+    },
+    {
+      "timestamp": [2389.335595, 2394.935595],
+      "text": " And especially from Europe when it comes to AI"
+    },
+    {
+      "timestamp": [2396.415595, 2397.355595],
+      "text": " and some other countries."
+    },
+    {
+      "timestamp": [2400.275595, 2403.215595],
+      "text": " So yeah, I mean, it's an amazing time to be in tech. Like there was like a little bit of a doom in the beginning,"
+    },
+    {
+      "timestamp": [2403.215595, 2405.195595],
+      "text": " but you kind of just have to accept the fact"
+    },
+    {
+      "timestamp": [2405.195595, 2406.5755950000002],
+      "text": " that it's moving in this direction"
+    },
+    {
+      "timestamp": [2406.5755950000002, 2409.495595],
+      "text": " and we're gonna have to go in this direction."
+    },
+    {
+      "timestamp": [2409.495595, 2412.475595],
+      "text": " But as we close out, I'm really curious."
+    },
+    {
+      "timestamp": [2412.475595, 2416.655595],
+      "text": " So with Lighthouse, what are your goals for this year?"
+    },
+    {
+      "timestamp": [2416.655595, 2418.815595],
+      "text": " Are you gonna be hiring at all?"
+    },
+    {
+      "timestamp": [2418.8144500000003, 2423.1544500000005],
+      "text": " how are you looking to build out the company and continue to grow?"
+    },
+    {
+      "timestamp": [2424.2144500000004, 2428.91445],
+      "text": " We are an incredibly motivated, intrinsically motivated, small,"
+    },
+    {
+      "timestamp": [2428.99445, 2433.2544500000004],
+      "text": " but mighty team. We will be growing. And so if anyone is interested,"
+    },
+    {
+      "timestamp": [2433.8544500000003, 2437.2344500000004],
+      "text": " you can find us at lighthousehq.com. Drop us a line."
+    },
+    {
+      "timestamp": [2437.7144500000004, 2442.6144500000005],
+      "text": " You can find me on the internet. And then, yeah,"
+    },
+    {
+      "timestamp": [2442.6144500000005, 2446.01445],
+      "text": " the goal is to, we serve a lot of individuals in fast"
+    },
+    {
+      "timestamp": [2446.01445, 2449.91445],
+      "text": " growing companies. And so being able to serve like hundreds and hundreds and more of them over"
+    },
+    {
+      "timestamp": [2449.91445, 2455.7344500000004],
+      "text": " the next like six to 12 months is like the primary focus doing that through some incredible"
+    },
+    {
+      "timestamp": [2455.7344500000004, 2464.05445],
+      "text": " partnerships with company organizations like, like on deck, um, and a couple others. Like, that'll be really exciting and lots more to come there."
+    },
+    { "timestamp": [2465.95445, 2466.01445], "text": " And what else?" },
+    {
+      "timestamp": [2471.91445, 2477.45445],
+      "text": " If you are thinking about starting something new or about joining something new and you need Visa help, also reach out because a lot of the times I've found"
+    },
+    {
+      "timestamp": [2477.45445, 2482.8144500000003],
+      "text": " that the best people we get to – I feel like sometimes we're in on a secret"
+    },
+    {
+      "timestamp": [2482.8144500000003, 2485.1744500000004],
+      "text": " because this is the first"
+    },
+    {
+      "timestamp": [2485.1744500000004, 2491.3944500000002],
+      "text": " thing that a lot of people want to know how to figure out before all the other stuff. And so"
+    },
+    {
+      "timestamp": [2491.3944500000002, 2498.3544500000003],
+      "text": " we get a sneak preview into what people want to be doing, um, very shortly in the future. And so,"
+    },
+    {
+      "timestamp": [2498.51445, 2502.01445],
+      "text": " um, if you're one of those people come find us because we'd love to help."
+    },
+    {
+      "timestamp": [2502.2744500000003, 2506.7144500000004],
+      "text": " That's amazing. And also a little bit of like a hint of alpha there for some VCs."
+    },
+    { "timestamp": [2507.51445, 2507.95445], "text": " Perhaps." },
+    { "timestamp": [2508.3744500000003, 2508.51445], "text": " Yeah." },
+    { "timestamp": [2509.55445, 2509.91445], "text": " Perhaps." },
+    {
+      "timestamp": [2509.91445, 2510.8944500000002],
+      "text": " It's in your listeners."
+    },
+    { "timestamp": [2512.01445, 2512.8744500000003], "text": " It is true." },
+    {
+      "timestamp": [2512.99445, 2515.51445],
+      "text": " I feel like we genuinely get like a sneak preview into the future."
+    },
+    {
+      "timestamp": [2516.3544500000003, 2517.45445],
+      "text": " Well, thank you so much, man."
+    },
+    {
+      "timestamp": [2517.51445, 2519.01445],
+      "text": " It was so fun to have you on."
+    },
+    {
+      "timestamp": [2524.1744500000004, 2524.5744500000005],
+      "text": " And congrats on all of the success and the launch and having a growing wait list."
+    },
+    {
+      "timestamp": [2531.99445, 2534.3144500000003],
+      "text": " Like this, this is amazing and such an awesome opportunity for not only America, but like the technology industry in general. And you're doing a great job. So congratulations."
+    },
+    {
+      "timestamp": [2535.1744500000004, null],
+      "text": " Thank you. You're democratizing skilled immigration. Let's get more immigrants here."
+    }
+  ],
+  "language": "en"
+}
