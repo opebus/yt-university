@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -9,7 +9,7 @@ from .base import AlchemyBase, MetadataMixin
 class Playlist(AlchemyBase, MetadataMixin):
     __tablename__ = "playlist"
 
-    id: Mapped[str] = mapped_column(default=uuid4, primary_key=True, index=True)
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
 
