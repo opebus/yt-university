@@ -4,3 +4,4 @@ ruff
 python-dotenv
 sqlalchemy
 asyncpg
+sqlalchemy[asyncio]

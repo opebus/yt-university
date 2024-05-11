@@ -4,13 +4,14 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import (
     JSON,
 )
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, deferred, mapped_column, relationship
 
-# Importing for more specific types
-from .base import AlchemyBase, MetadataMixin
+from .base import AlchemyBase
+from .playlist import playlist_video
+from .user import favorite
 
 
-class Video(AlchemyBase, MetadataMixin):
+class Video(AlchemyBase):
     __tablename__ = "video"
 
     id: Mapped[str] = mapped_column(default=uuid4, primary_key=True, index=True)
@@ -23,19 +24,15 @@ class Video(AlchemyBase, MetadataMixin):
     thumbnail: Mapped[str] = mapped_column(nullable=True)
     duration: Mapped[int] = mapped_column(nullable=True)
     language: Mapped[str] = mapped_column(nullable=True)
-    transcription: Mapped[JSON] = mapped_column(type_=JSON, nullable=True)
-    summary: Mapped[str] = mapped_column(nullable=True)
+    transcription: Mapped[JSON] = deferred(mapped_column(type_=JSON, nullable=True))
+    summary: Mapped[str] = deferred(mapped_column(nullable=True))
     category: Mapped[str] = mapped_column(nullable=True)
     favorite_count: Mapped[int] = mapped_column(server_default="0", nullable=False)
+
     user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), nullable=True)
+    uploaded_by = relationship("User", back_populates="videos", uselist=False)
 
-    user = relationship("User", back_populates="videos", uselist=False)
-    favorited_users = relationship("Favorite", back_populates="video")
-    playlists = relationship("PlaylistVideo", back_populates="video")
-
-    def increment_favorite(self):
-        self.favorite_count += 1
-
-    def decrement_favorite(self):
-        if self.favorite_count > 0:
-            self.favorite_count -= 1
+    favorited_by = relationship("User", secondary=favorite, back_populates="favorites")
+    playlists = relationship(
+        "Playlist", secondary=playlist_video, back_populates="videos"
+    )

@@ -9,65 +9,55 @@ async def add_favorite(session, user_id: str, video_id: str):
     from sqlalchemy.exc import SQLAlchemyError
     from sqlalchemy.future import select
 
-    from yt_university.models import Favorite
+    from yt_university.models import favorite
 
     try:
-        # Fetch any existing favorite, including soft-deleted ones
         existing_favorite = await session.execute(
-            select(Favorite).where(
-                Favorite.user_id == user_id, Favorite.video_id == video_id
+            select(favorite).where(
+                favorite.c.user_id == user_id,
+                favorite.c.video_id == video_id,
             )
         )
-        favorite_instance = existing_favorite.scalars().first()
+        favorite_instance = existing_favorite.first()
 
         if favorite_instance:
-            if favorite_instance.deleted_at:
-                # If the favorite is soft-deleted, restore it
-                favorite_instance.undelete()
-                message = "Favorite restored successfully."
-            else:
-                # If the favorite already exists and is not deleted, return an error
-                raise HTTPException(status_code=400, detail="Favorite already exists")
-        else:
-            # If no favorite exists, create a new one
-            new_favorite = Favorite(user_id=user_id, video_id=video_id)
-            session.add(new_favorite)
-            message = "Favorite added successfully."
+            raise HTTPException(status_code=400, detail="Favorite already exists")
 
-        # Commit changes and refresh the instance
+        await session.execute(
+            favorite.insert().values(user_id=user_id, video_id=video_id)
+        )
         await session.commit()
-        if favorite_instance:
-            await session.refresh(favorite_instance)
-        else:
-            await session.refresh(new_favorite)
-
-        return {"status": "success", "message": message}
+        return {"status": "success", "message": "Favorite added successfully"}
     except HTTPException as e:
         raise e
     except SQLAlchemyError as e:
-        logger.error(f"Failed to add/restore favorite: {e}")
+        logger.error(f"Failed to add favorite: {e}")
         await session.rollback()
         raise HTTPException(
-            status_code=500, detail="Failed to add/restore favorite in database"
+            status_code=500, detail="Failed to add favorite in database"
         )
 
 
 async def remove_favorite(session, user_id: str, video_id: str):
     from sqlalchemy.future import select
 
-    from yt_university.models import Favorite
+    from yt_university.models import favorite
 
     try:
-        favorite = await session.execute(
-            select(Favorite).where(
-                Favorite.user_id == user_id, Favorite.video_id == video_id
+        result = await session.execute(
+            select(favorite).where(
+                favorite.c.user_id == user_id, favorite.c.video_id == video_id
             )
         )
-        favorite_instance = favorite.scalars().first()
+        favorite_instance = result.first()
         if not favorite_instance:
             raise HTTPException(status_code=404, detail="Favorite not found")
 
-        favorite_instance.delete()
+        await session.execute(
+            favorite.delete().where(
+                favorite.c.user_id == user_id, favorite.c.video_id == video_id
+            )
+        )
         await session.commit()
     except HTTPException as e:
         raise e
@@ -80,11 +70,15 @@ async def remove_favorite(session, user_id: str, video_id: str):
 async def get_user_favorites(session, user_id: str):
     from sqlalchemy.future import select
 
-    from yt_university.models import Favorite, Video
+    from yt_university.models import Video, favorite
 
     try:
         result = await session.execute(
-            select(Video).join(Favorite).where(Favorite.user_id == user_id)
+            select(Video)
+            .join(favorite)
+            .where(
+                favorite.c.user_id == user_id,
+            )
         )
         videos = result.scalars().all()
         return videos

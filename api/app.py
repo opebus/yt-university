@@ -10,10 +10,11 @@ from pydantic import BaseModel
 from yt_university.config import MAX_JOB_AGE_SECS
 from yt_university.crud.playlist import (
     add_playlist,
+    add_videos_to_playlist,
     delete_playlist,
     get_all_playlists,
     get_playlist,
-    update_playlist,
+    remove_videos_from_playlist,
 )
 from yt_university.crud.video import get_all_videos, get_video, upsert_video
 from yt_university.services.process import process
@@ -226,29 +227,27 @@ async def get_video_categories():
     return categories
 
 
-@web_app.post("/api/favorites")
-async def add_to_favorites(favorite: Favorite):
+@web_app.post("/api/user/{user_id}/favorite/{video_id}")
+async def add_to_favorites(video_id: str, user_id: str):
     from yt_university.crud.favorite import add_favorite
     from yt_university.database import get_db_session
 
     try:
         async with get_db_session() as session:
-            favorite_data = await add_favorite(
-                session, favorite.user_id, favorite.video_id
-            )
+            favorite_data = await add_favorite(session, user_id, video_id)
             return favorite_data
     except HTTPException as e:
         raise e
 
 
-@web_app.delete("/api/favorites")
-async def delete_favorite(favorite: Favorite):
+@web_app.delete("/api/user/{user_id}/favorite/{video_id}")
+async def delete_favorite(video_id: str, user_id: str):
     from yt_university.crud.favorite import remove_favorite
     from yt_university.database import get_db_session
 
     try:
         async with get_db_session() as session:
-            await remove_favorite(session, favorite.user_id, favorite.video_id)
+            await remove_favorite(session, user_id, video_id)
             return {"status": "success", "message": "Favorite has been removed"}
     except HTTPException as e:
         raise e
@@ -258,7 +257,7 @@ async def delete_favorite(favorite: Favorite):
         )
 
 
-@web_app.get("/api/favorites/{user_id}")
+@web_app.get("/api/user/{user_id}/favorite")
 async def list_favorites(user_id: str):
     from yt_university.crud.favorite import get_user_favorites
     from yt_university.database import get_db_session
@@ -275,8 +274,15 @@ async def list_favorites(user_id: str):
         )
 
 
+class CreatePlaylist(BaseModel):
+    name: str
+    description: str
+    user_id: str
+    video_ids: list[str] = []
+
+
 @web_app.post("/api/playlists")
-async def create_playlist(playlist_data: dict):
+async def create_playlist(playlist_data: CreatePlaylist):
     from yt_university.database import get_db_session
 
     try:
@@ -285,25 +291,6 @@ async def create_playlist(playlist_data: dict):
             return new_playlist
     except Exception as e:
         logger.error(f"Failed to create a new playlist: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )
-
-
-@web_app.put("/api/playlists/{playlist_id}")
-async def update_existing_playlist(playlist_id: str, playlist_data: dict, session):
-    from yt_university.database import get_db_session
-
-    try:
-        async with get_db_session() as session:
-            updated_playlist = await update_playlist(
-                session, playlist_id, playlist_data
-            )
-            return updated_playlist
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        logger.error(f"Failed to update playlist: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
@@ -321,6 +308,48 @@ async def delete_existing_playlist(playlist_id: str):
         raise e
     except Exception as e:
         logger.error(f"Failed to delete playlist: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.post("/api/playlists/{playlist_id}/videos")
+async def add_video_existing_playlist(
+    playlist_id: str, video_ids: list[str] = Body(..., embed=True)
+):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            updated_playlist = await add_videos_to_playlist(
+                session, playlist_id, video_ids
+            )
+            return updated_playlist
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Failed to update playlist: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@web_app.delete("/api/playlists/{playlist_id}/videos")
+async def delete_video_existing_playlist(
+    playlist_id: str, video_ids: list[str] = Body(..., embed=True)
+):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            updated_playlist = await remove_videos_from_playlist(
+                session, playlist_id, video_ids
+            )
+            return updated_playlist
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Failed to update playlist: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
