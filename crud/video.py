@@ -93,15 +93,29 @@ async def get_all_videos(
     from sqlalchemy import func, literal_column
     from sqlalchemy.future import select
 
-    from yt_university.models import Video, favorite
+    from yt_university.models import Playlist, Video, favorite, playlist_video
 
     offset = (page - 1) * page_size
     if user_id:
-        query = select(
-            Video, favorite.c.user_id.isnot(None).label("favorited")
-        ).outerjoin(
-            favorite,
-            (Video.id == favorite.c.video_id) & (favorite.c.user_id == user_id),
+        query = (
+            select(
+                Video,
+                favorite.c.user_id.isnot(None).label("favorited"),
+                func.array_agg(func.coalesce(Playlist.id, None))
+                .filter(Playlist.user_id == user_id)
+                .label("playlist_ids"),
+            )
+            .outerjoin(
+                favorite,
+                (Video.id == favorite.c.video_id) & (favorite.c.user_id == user_id),
+            )
+            .outerjoin(playlist_video, Video.id == playlist_video.c.video_id)
+            .outerjoin(
+                Playlist,
+                (playlist_video.c.playlist_id == Playlist.id)
+                & (Playlist.user_id == user_id),
+            )
+            .group_by(Video.id, favorite.c.user_id)
         )
     else:
         query = select(Video, literal_column("false").label("favorited"))
@@ -115,9 +129,10 @@ async def get_all_videos(
     result = await session.execute(query)
 
     videos = []
-    for video, favorited in result:
+    for video, favorited, playlist_ids in result:
         video_info = video.__dict__.copy()
         video_info["favorited"] = favorited
+        video_info["playlist_ids"] = playlist_ids or []  # Ensure empty list if None
         videos.append(video_info)
 
     return videos
