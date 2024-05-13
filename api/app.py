@@ -183,8 +183,9 @@ async def poll_status(call_id: str):
 
 @web_app.get("/api/videos")
 async def all_videos(
-    user_id: str = Query(None, description="The user ID to fetch videos for"),
+    user_id: str = Query(None, description="The user ID to fetch favorites for"),
     category: str = Query(None, description="The category of the videos to fetch"),
+    is_user: bool = Query(False, description="Whether to filter by user ID"),
     page: int = Query(1, description="Page number of the results"),
     page_size: int = Query(10, description="Number of results per page"),
 ):
@@ -194,7 +195,9 @@ async def all_videos(
     from yt_university.database import get_db_session
 
     async with get_db_session() as session:
-        videos = await get_all_videos(session, category, user_id, page, page_size)
+        videos = await get_all_videos(
+            session, user_id, category, is_user, page, page_size
+        )
 
     if not videos:
         raise HTTPException(status_code=404, detail="No videos found")

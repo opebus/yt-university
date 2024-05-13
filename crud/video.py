@@ -87,22 +87,37 @@ async def get_video(session, video_id, load_columns=None):
     return video
 
 
-async def get_all_videos(session, category=None, user_id=None, page=1, page_size=10):
+async def get_all_videos(
+    session, user_id=None, category=None, is_user=False, page=1, page_size=10
+):
     from sqlalchemy import func
     from sqlalchemy.future import select
 
-    from yt_university.models import Video
+    from yt_university.models import Video, favorite
 
     offset = (page - 1) * page_size
-    query = select(Video)
+    if user_id:
+        query = select(
+            Video, favorite.c.user_id.isnot(None).label("favorited")
+        ).outerjoin(
+            favorite,
+            (Video.id == favorite.c.video_id) & (favorite.c.user_id == user_id),
+        )
+    else:
+        query = select(Video, func.false().label("favorited"))
 
     if category:
         query = query.where(func.lower(Video.category) == func.lower(category))
-    if user_id:
+    if is_user:
         query = query.where(Video.user_id == user_id)
 
     query = query.offset(offset).limit(page_size)
     result = await session.execute(query)
-    videos = result.scalars().all()
+
+    videos = []
+    for video, favorited in result:
+        video_info = video.__dict__.copy()
+        video_info["favorited"] = favorited
+        videos.append(video_info)
 
     return videos
