@@ -16,7 +16,11 @@ from yt_university.crud.playlist import (
     get_playlist,
     remove_videos_from_playlist,
 )
-from yt_university.crud.video import get_all_videos, get_video, upsert_video
+from yt_university.crud.video import (
+    get_all_videos,
+    get_video,
+    upsert_video,
+)
 from yt_university.services.process import process
 from yt_university.services.summarize import categorize_text, generate_summary
 from yt_university.stub import in_progress
@@ -54,6 +58,7 @@ class WorkflowRequest(BaseModel):
 @web_app.post("/api/process")
 async def process_workflow(request: WorkflowRequest):
     from yt_university.database import get_db_session
+    from yt_university.models import Video
 
     url = request.url
     user_id = request.user_id
@@ -83,11 +88,9 @@ async def process_workflow(request: WorkflowRequest):
             pass
 
     async with get_db_session() as session:
-        video = await get_video(session, id)
-        if video:
-            await session.refresh(video, attribute_names=["transcription"])
-            if video.transcription is not None:
-                raise HTTPException(status_code=400, detail="Video already processed")
+        video = await get_video(session, id, load_columns=[Video.transcription])
+        if video and video.transcription is not None:
+            raise HTTPException(status_code=400, detail="Video already processed")
 
     call = process.spawn(sanitized_url, user_id)
 
@@ -102,14 +105,14 @@ async def process_workflow(request: WorkflowRequest):
 @web_app.post("/api/summarize")
 async def invoke_transcription(id: str = Body(..., embed=True)):
     from yt_university.database import get_db_session
+    from yt_university.models import Video
 
     async with get_db_session() as session:
-        video = await get_video(session, id)
+        video = await get_video(session, id, load_columns=[Video.transcription])
 
         if not video:
             raise HTTPException(status_code=404, detail="Video not found")
 
-        await session.refresh(video, attribute_names=["transcription"])
         if not video.transcription:
             raise HTTPException(
                 status_code=404, detail="Transcription not available for this video"
@@ -199,7 +202,7 @@ async def all_videos(
     return videos
 
 
-@web_app.get("/api/video/{id}")
+@web_app.get("/api/videos/{id}")
 async def get_individual_video(id: str):
     """
     Fetch a video by its ID.
@@ -207,7 +210,7 @@ async def get_individual_video(id: str):
     from yt_university.database import get_db_session
 
     async with get_db_session() as session:
-        video = await get_video(session, id)
+        video = await get_video(session, id, load_columns="all")
 
     if not video:
         raise HTTPException(status_code=404, detail="Video not found")
@@ -227,7 +230,7 @@ async def get_video_categories():
     return categories
 
 
-@web_app.post("/api/user/{user_id}/favorite/{video_id}")
+@web_app.post("/api/users/{user_id}/favorites/{video_id}")
 async def add_to_favorites(video_id: str, user_id: str):
     from yt_university.crud.favorite import add_favorite
     from yt_university.database import get_db_session
@@ -240,7 +243,7 @@ async def add_to_favorites(video_id: str, user_id: str):
         raise e
 
 
-@web_app.delete("/api/user/{user_id}/favorite/{video_id}")
+@web_app.delete("/api/users/{user_id}/favorites/{video_id}")
 async def delete_favorite(video_id: str, user_id: str):
     from yt_university.crud.favorite import remove_favorite
     from yt_university.database import get_db_session
@@ -257,7 +260,7 @@ async def delete_favorite(video_id: str, user_id: str):
         )
 
 
-@web_app.get("/api/user/{user_id}/favorite")
+@web_app.get("/api/users/{user_id}/favorites")
 async def list_favorites(user_id: str):
     from yt_university.crud.favorite import get_user_favorites
     from yt_university.database import get_db_session

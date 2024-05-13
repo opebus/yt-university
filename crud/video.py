@@ -67,12 +67,20 @@ async def upsert_video(session, video_id: str, update_data: dict):
         )
 
 
-async def get_video(session, video_id):
+async def get_video(session, video_id, load_columns=None):
     from sqlalchemy.future import select
+    from sqlalchemy.orm import Load, undefer
 
     from yt_university.models import Video
 
     stmt = select(Video).filter(Video.id == video_id)
+
+    if load_columns == "all":
+        stmt = stmt.options(undefer("*"))
+    elif load_columns:
+        load_options = [Load(Video).undefer(column) for column in load_columns]
+        stmt = stmt.options(*load_options)
+
     result = await session.execute(stmt)
     video = result.scalars().first()
 
