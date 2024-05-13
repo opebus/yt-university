@@ -90,7 +90,7 @@ async def get_video(session, video_id, load_columns=None):
 async def get_all_videos(
     session, user_id=None, category=None, is_user=False, page=1, page_size=10
 ):
-    from sqlalchemy import func
+    from sqlalchemy import func, literal_column
     from sqlalchemy.future import select
 
     from yt_university.models import Video, favorite
@@ -104,7 +104,7 @@ async def get_all_videos(
             (Video.id == favorite.c.video_id) & (favorite.c.user_id == user_id),
         )
     else:
-        query = select(Video, func.false().label("favorited"))
+        query = select(Video, literal_column("false").label("favorited"))
 
     if category:
         query = query.where(func.lower(Video.category) == func.lower(category))
