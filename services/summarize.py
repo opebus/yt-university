@@ -76,7 +76,7 @@ def generate_summary(title: str, text: str):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=[{"role": "user", "content": create_prompt(title, text)}],
         )
         summary = response.choices[0].message.content.strip()

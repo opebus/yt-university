@@ -118,7 +118,11 @@ async def get_all_videos(
             .group_by(Video.id, favorite.c.user_id)
         )
     else:
-        query = select(Video, literal_column("false").label("favorited"))
+        query = select(
+            Video,
+            literal_column("false").label("favorited"),
+            literal_column("null").label("playlist_ids"),
+        )
 
     if category:
         query = query.where(func.lower(Video.category) == func.lower(category))
