@@ -64,12 +64,24 @@ async def process_workflow(request: WorkflowRequest):
     user_id = request.user_id
     force = request.force
 
-    # defensive programming
+    # Parse the URL to handle different YouTube URL formats
     parsed = urlparse(url)
-    id = parse_qs(parsed.query)["v"][0]
+    if "youtu.be" in parsed.netloc:
+        # Handling the shortened YouTube URL format
+        video_id = parsed.path[1:]  # Skip the first '/' in the path to get the ID
+    else:
+        # Handling the standard YouTube URL format
+        query_params = parse_qs(parsed.query)
+        video_id = query_params.get("v", [None])[
+            0
+        ]  # Get 'v' parameter or default to None if not present
 
-    ## assume only youtube videos
-    sanitized_url = "https://www.youtube.com/watch?v=" + id
+    # Ensure video_id is not None before proceeding
+    if video_id is None:
+        raise ValueError("Invalid YouTube URL provided.")
+
+    # Reconstruct a sanitized YouTube URL
+    sanitized_url = f"https://www.youtube.com/watch?v={video_id}"
 
     now = int(time.time())
     if not force:
