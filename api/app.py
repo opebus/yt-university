@@ -68,20 +68,20 @@ async def process_workflow(request: WorkflowRequest):
     parsed = urlparse(url)
     if "youtu.be" in parsed.netloc:
         # Handling the shortened YouTube URL format
-        video_id = parsed.path[1:]  # Skip the first '/' in the path to get the ID
+        id = parsed.path[1:]  # Skip the first '/' in the path to get the ID
     else:
         # Handling the standard YouTube URL format
         query_params = parse_qs(parsed.query)
-        video_id = query_params.get("v", [None])[
+        id = query_params.get("v", [None])[
             0
         ]  # Get 'v' parameter or default to None if not present
 
-    # Ensure video_id is not None before proceeding
-    if video_id is None:
+    # Ensure id is not None before proceeding
+    if id is None:
         raise ValueError("Invalid YouTube URL provided.")
 
     # Reconstruct a sanitized YouTube URL
-    sanitized_url = f"https://www.youtube.com/watch?v={video_id}"
+    sanitized_url = f"https://www.youtube.com/watch?v={id}"
 
     now = int(time.time())
     if not force:
@@ -132,15 +132,11 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
 
         summary = generate_summary.spawn(video.title, video.transcription).get()
         category = categorize_text.spawn(video.title, summary).get()
-        video_data = await upsert_video(
+        await upsert_video(
             session, video.id, {"summary": summary, "category": category}
         )
 
-    return {
-        id: video_data.id,
-        "summary": video_data.summary,
-        "category": video_data.category,
-    }
+        return "DONE"
 
 
 @web_app.get("/api/status/{call_id}")

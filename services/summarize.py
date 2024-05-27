@@ -167,7 +167,7 @@ def categorize_text(title: str, text: str):
     try:
         tldr_text = extract_tldr(text)
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=[
                 {"role": "user", "content": create_categorize_prompt(title, tldr_text)}
             ],

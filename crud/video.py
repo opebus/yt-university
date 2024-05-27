@@ -31,12 +31,7 @@ async def upsert_video(session, video_id: str, update_data: dict):
         if video:
             # Video exists, update its fields
             for key, value in update_data.items():
-                if hasattr(video, key):
-                    setattr(video, key, value)
-                else:
-                    logger.warning(
-                        f"Attempted to update non-existent field '{key}' on Video model."
-                    )
+                setattr(video, key, value)
         else:
             # Video does not exist, create a new instance
             video = Video(**update_data)
