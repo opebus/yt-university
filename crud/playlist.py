@@ -39,6 +39,37 @@ async def add_playlist(session, playlist_data):
         )
 
 
+async def update_playlist(session, playlist_id: str, new_data: dict):
+    from fastapi import HTTPException
+    from sqlalchemy.exc import SQLAlchemyError
+    from sqlalchemy.future import select
+
+    from yt_university.models import Playlist
+
+    try:
+        result = await session.execute(
+            select(Playlist).where(Playlist.id == playlist_id)
+        )
+        playlist = result.scalars().first()
+
+        if not playlist:
+            raise HTTPException(status_code=404, detail="Playlist not found")
+
+        for key, value in new_data.items():
+            if value is not None and hasattr(playlist, key):
+                setattr(playlist, key, value)
+
+        await session.commit()
+        await session.refresh(playlist)
+        return playlist
+    except SQLAlchemyError as e:
+        logger.error(f"Failed to edit playlist: {e}")
+        await session.rollback()
+        raise HTTPException(
+            status_code=500, detail="Internal server error during playlist edit"
+        )
+
+
 async def add_videos_to_playlist(session, playlist_id: str, video_ids: list):
     from sqlalchemy.future import select
     from sqlalchemy.orm import joinedload
@@ -63,14 +94,10 @@ async def add_videos_to_playlist(session, playlist_id: str, video_ids: list):
 
         if not videos:
             raise HTTPException(status_code=404, detail="No videos found")
-        print("this")
         for video in videos:
-            print("asdfasdfasdsafa")
             if video not in playlist.videos:
-                print("sadfasdf1312asdfasdfasdsafa")
                 playlist.videos.append(video)
 
-        print("adsfasdf")
         await session.commit()
         return playlist
 

@@ -15,6 +15,7 @@ from yt_university.crud.playlist import (
     get_all_playlists,
     get_playlist,
     remove_videos_from_playlist,
+    update_playlist,
 )
 from yt_university.crud.video import (
     get_all_videos,
@@ -305,6 +306,29 @@ async def create_playlist(playlist_data: CreatePlaylist):
             return new_playlist
     except Exception as e:
         logger.error(f"Failed to create a new playlist: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+class UpdatePlaylistMetadata(BaseModel):
+    playlist_id: str | None
+    name: str | None
+    description: str | None
+
+
+@web_app.put("/api/playlists")
+async def edit_playlist(playlist: UpdatePlaylistMetadata):
+    from yt_university.database import get_db_session
+
+    try:
+        async with get_db_session() as session:
+            updated = await update_playlist(
+                session, playlist.playlist_id, playlist.dict()
+            )
+            return updated
+    except Exception as e:
+        logger.error(f"Failed to update playlist {playlist}: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
