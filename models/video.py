@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ARRAY, Float, ForeignKey
 from sqlalchemy.dialects.postgresql import (
     JSON,
 )
@@ -28,6 +28,9 @@ class Video(AlchemyBase):
     summary: Mapped[str] = deferred(mapped_column(nullable=True))
     category: Mapped[str] = mapped_column(nullable=True)
     favorite_count: Mapped[int] = mapped_column(server_default="0", nullable=False)
+    embedding: Mapped[ARRAY(Float)] = mapped_column(
+        type_=ARRAY(Float, dimensions=1), nullable=True
+    )
 
     user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), nullable=True)
     uploaded_by = relationship("User", back_populates="videos", uselist=False)
