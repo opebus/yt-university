@@ -131,7 +131,11 @@ async def invoke_transcription(id: str = Body(..., embed=True)):
                 status_code=404, detail="Transcription not available for this video"
             )
 
-        summary = generate_summary.spawn(video.title, video.transcription).get()
+        chunks = video.transcription["chunks"]
+
+        full_text = " ".join(chunk["text"] for chunk in chunks)
+
+        summary = generate_summary.spawn(video.title, full_text).get()
         category = categorize_text.spawn(video.title, summary).get()
         await upsert_video(
             session, video.id, {"summary": summary, "category": category}

@@ -62,4 +62,8 @@ async def process(video_url: str, user_id: str):
         category = categorize_text.spawn(video.title, transcription).get()
         video_data = await upsert_video(session, video.id, {"category": category})
 
+        # related = get_related_content.spawn(video.url).get()
+        # print(related)
+        # video_data = await upsert_video(session, video.id, {"related_content": related})
+
     return video_data

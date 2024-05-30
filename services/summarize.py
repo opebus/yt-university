@@ -6,21 +6,24 @@ from yt_university.stub import stub
 
 logger = logging.getLogger(__name__)
 
-image = Image.debian_slim(python_version="3.11").pip_install("openai")
+summarize_image = Image.debian_slim(python_version="3.10").pip_install(
+    "exa_py", "openai"
+)
 
 
 # reference
 # - https://www.reddit.com/r/ChatGPT/comments/11pd2um/the_best_prompt_for_summary_youtube/
-def create_prompt(title: str, text: str, video_url: str) -> str:
+def create_prompt(title: str, text: str) -> str:
     return f"""
         Given the transcript below:
         {text}
 
         For the video titled "{title}", write an in-depth analysis that both informs and engages readers. Your narrative should unfold with clarity and insight, reflecting the style of a Paul Graham essay.
 
-        ## Instructions
+        Return the essay in JSON with the following format:
+        {{"tl;dr":"content","terminologies": "<terminologies content>","takeaways": "<takeaways content>","summary": {{"<Key Idea 1>": "<key idea 1 content>","<Key Idea 2>": "<key idea 2 content>",...}}}}
 
-        Please follow the major headings and formatting guidelines below to structure your analysis:
+        Below are instructions for each section of the essay:
 
         # tl;dr
 
@@ -34,26 +37,40 @@ def create_prompt(title: str, text: str, video_url: str) -> str:
 
         - Conclude with bullet points outlining practical advice or steps derived from the video content.
         - These should connect directly to the insights discussed and emphasize their applicability and impact in real-world scenarios.
-        - In each of those points, provide some actionable advice or steps that can be taken right away to implement the insights discussed in the video.
 
         # Summary
 
-        Your summary should unfold as a detailed and engaging narrative essay, deeply exploring the content of the video. This section is the core of your analysis and should be both informative and thought-provoking.
-
-        ## Key Idea 1
-
-        Delve deeply into the first main theme of the video. Provide a comprehensive analysis of this theme, backed by examples from the video and relevant research in the field.
-
-        (Continue with additional key ideas as needed)
-
-        Please ensure the entire content adheres to a 1500-word limit, offering a clear and comprehensive understanding of the video's themes and implications.
-
-        Remember it should only have tldr, terminologies, takeaways, and summary sections.
+        Your summary should unfold as a detailed and engaging narrative essay, deeply exploring the content of the video. It is broken down into key ideas, each with its own paragraph. Each idea should be well-developed, providing context, explanation, and examples where necessary. The essay should be structured logically, with a clear flow of ideas and transitions between paragraphs. It should be long enough to cover the main points but concise enough to maintain the reader's interest.
     """
 
 
+def json_to_markdown(data: dict) -> str:
+    import json
+
+    data = json.loads(data)
+    markdown = ""
+
+    markdown += f"# tl;dr\n\n{data['tl;dr']}\n\n"
+
+    markdown += "# Terminologies\n\n"
+    for term, definition in data["terminologies"].items():
+        markdown += f"1. {term}: {definition}\n\n"
+
+    markdown += "# Takeaways\n\n"
+    for takeaway in data["takeaways"]:
+        markdown += f"- {takeaway}\n"
+
+    markdown += "\n# Summary\n\n"
+    for key_idea, content in data["summary"].items():
+        markdown += f"## {key_idea}\n\n{content}\n\n"
+
+    return markdown
+
+
 @stub.function(
-    image=image, secrets=[Secret.from_name("university")], container_idle_timeout=5
+    image=summarize_image,
+    secrets=[Secret.from_name("university")],
+    container_idle_timeout=5,
 )
 def generate_summary(title: str, text: str):
     """
@@ -70,7 +87,8 @@ def generate_summary(title: str, text: str):
             model="gpt-4o",
             messages=[{"role": "user", "content": create_prompt(title, text)}],
         )
-        summary = response.choices[0].message.content.strip()
+        summary_json = response.choices[0].message.content.strip()
+        summary = json_to_markdown(summary_json)
         return summary
     except Exception as e:
         logger.error(f"Error in summarizing transcription: {str(e)}")
@@ -146,7 +164,9 @@ def create_categorize_prompt(title, text):
 
 
 @stub.function(
-    image=image, secrets=[Secret.from_name("university")], container_idle_timeout=5
+    image=summarize_image,
+    secrets=[Secret.from_name("university")],
+    container_idle_timeout=5,
 )
 def categorize_text(title: str, text: str):
     import os
@@ -170,6 +190,22 @@ def categorize_text(title: str, text: str):
         return "Failed to categorize summary."
 
 
+@stub.function(
+    image=summarize_image,
+    secrets=[Secret.from_name("university")],
+    container_idle_timeout=5,
+)
+def get_related_content(url: str):
+    import os
+
+    from exa_py import Exa
+
+    exa = Exa(api_key=os.getenv("EXA_API_KEY"))
+
+    result = exa.find_similar_and_contents(url, num_results=10, highlights=True)
+    return result
+
+
 @stub.local_entrypoint()
 def main():
     import json
@@ -179,8 +215,6 @@ def main():
     load_dotenv()
     with open("./example.json") as f:
         data = json.load(f)
-        summary = generate_summary.local(data["title"], data["transcription"])
-        print("Summary:", summary)
 
         category = categorize_text.local(data["title"], data["transcription"])
         print("Categorized as:", category)
