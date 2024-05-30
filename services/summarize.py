@@ -11,53 +11,44 @@ image = Image.debian_slim(python_version="3.11").pip_install("openai")
 
 # reference
 # - https://www.reddit.com/r/ChatGPT/comments/11pd2um/the_best_prompt_for_summary_youtube/
-def create_prompt(title: str, text: str) -> str:
+def create_prompt(title: str, text: str, video_url: str) -> str:
     return f"""
-        Your task is to provide an in-depth analysis of a provided video transcript, structured to both inform and engage readers. Your narrative should unfold with clarity and insight, reflecting the style of a Paul Graham essay.
+        Given the transcript below:
+        {text}
 
-        Follow these major headings for organization:
+        For the video titled "{title}", write an in-depth analysis that both informs and engages readers. Your narrative should unfold with clarity and insight, reflecting the style of a Paul Graham essay.
+
+        ## Instructions
+
+        Please follow the major headings and formatting guidelines below to structure your analysis:
 
         # tl;dr
 
-        Produce a TL;DR that captures the essential points in a concise and informative manner. It should be brief yet comprehensive, providing a clear snapshot of the video's content in a few sentences.
-        This summary should enable someone who has not watched the video to understand the key points and takeaways quickly.
-        This section should relate well to the rest of the content below.
+        Produce a TL;DR that captures the essential points in a concise and informative manner. It should be brief yet comprehensive, providing a clear snapshot of the video's content in a few sentences. This summary should enable someone who has not watched the video to understand the key points and takeaways quickly. This section should relate well to the rest of the content below.
 
-        # Intro
+        # Terminologies
 
-        Begin with a narrative introduction that captivates the reader, setting the stage for an engaging exploration of bilingualism. Start with an anecdote or a surprising fact to draw in the reader, then succinctly summarize the main themes and objectives of the video.
-
-        # Summary
-
-        Your summary should unfold as a detailed and engaging narrative essay, deeply exploring the content of the video.
-        This section is the core of your analysis and should be both informative and thought-provoking.
-
-        When crafting your summary, delve deeply into the video's main themes.
-        Provide a comprehensive analysis of each theme, backed by examples from the video and relevant research in the field.
-
-        This section should read as a compelling essay, rich in detail and analysis, that not only informs the reader but also stimulates a deeper consideration of the topic's nuances and complexities.
-        Strive for a narrative that is as enriching and engaging as it is enlightening.
-
-        Please include headings and subheadings to organize your analysis effectively if needed. It should be as detailed and comprehensive as possible.
+        List and define key terminologies and acronyms used in the video. The definitions should be clear and tailored for readers unfamiliar with the specific jargon.
 
         # Takeaways
 
         - Conclude with bullet points outlining practical advice or steps derived from the video content.
-        These should connect directly to the insights discussed and emphasize their applicability and impact in real-world scenarios.
-        - In each of those point, provide some actionable advice or steps that can be taken right away to implement the insights discussed in the video.
+        - These should connect directly to the insights discussed and emphasize their applicability and impact in real-world scenarios.
+        - In each of those points, provide some actionable advice or steps that can be taken right away to implement the insights discussed in the video.
 
-        # Terminologies
+        # Summary
 
-        List and define key terminologies and acronyms used in the video.
-        The definitions should be clear and tailored for readers unfamiliar with the specific jargon.
-        This section should follow seamlessly from the ELI5, enhancing understanding without overwhelming the reader.
+        Your summary should unfold as a detailed and engaging narrative essay, deeply exploring the content of the video. This section is the core of your analysis and should be both informative and thought-provoking.
 
-        Guidelines:
-        Ensure that the summary, bullet points, and explanations adhere to a 1500-word limit.
-        Despite the constraint, your content should offer a clear and comprehensive understanding of the video's themes and implications.
+        ## Key Idea 1
 
-        Title: {title}
-        Text: {text}
+        Delve deeply into the first main theme of the video. Provide a comprehensive analysis of this theme, backed by examples from the video and relevant research in the field.
+
+        (Continue with additional key ideas as needed)
+
+        Please ensure the entire content adheres to a 1500-word limit, offering a clear and comprehensive understanding of the video's themes and implications.
+
+        Remember it should only have tldr, terminologies, takeaways, and summary sections.
     """
 
 
