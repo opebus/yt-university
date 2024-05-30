@@ -165,7 +165,7 @@ async def poll_status(call_id: str):
 
     try:
         main_stub = graph[0].children[0]
-        map_root = main_stub.children[0]
+        map_root = main_stub.children[-1]
     except IndexError:
         return dict(stage="init", status="in_progress")
 
@@ -174,7 +174,7 @@ async def poll_status(call_id: str):
         status=InputStatus(map_root.status).name,
     )
 
-    if map_root.function_name == "transcribe":
+    if map_root.function_name == "services.transcribe.transcribe":
         leaves = map_root.children
         tasks = len({leaf.task_id for leaf in leaves})
         done_segments = len(
@@ -186,7 +186,8 @@ async def poll_status(call_id: str):
         status["tasks"] = tasks
         status["done_segments"] = done_segments
     elif (
-        map_root.function_name == "summarize" and map_root.status == InputStatus.SUCCESS
+        map_root.function_name == "services.summarize.categorize_text"
+        and map_root.status == InputStatus.SUCCESS
     ) or main_stub.status == InputStatus.SUCCESS:
         status["stage"] = "end"
         status["status"] = "DONE"

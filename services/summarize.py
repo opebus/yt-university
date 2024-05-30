@@ -6,7 +6,7 @@ from yt_university.stub import stub
 
 logger = logging.getLogger(__name__)
 
-summarize_image = Image.debian_slim(python_version="3.10").pip_install(
+summarize_image = Image.debian_slim(python_version="3.12").pip_install(
     "exa_py", "openai"
 )
 
@@ -21,7 +21,7 @@ def create_prompt(title: str, text: str) -> str:
         For the video titled "{title}", write an in-depth analysis that both informs and engages readers. Your narrative should unfold with clarity and insight, reflecting the style of a Paul Graham essay.
 
         Return the essay in JSON with the following format:
-        {{"tl;dr":"content","terminologies": "<terminologies content>","takeaways": "<takeaways content>","summary": {{"<Key Idea 1>": "<key idea 1 content>","<Key Idea 2>": "<key idea 2 content>",...}}}}
+        {{"tl;dr":"content","terminologies": {{"<Term 1>": "<Term 1 content>","<Term 2>": "<Term 2 content>",...}},"takeaways": "<takeaways content>","summary": {{"<Key Idea 1>": "<key idea 1 content>","<Key Idea 2>": "<key idea 2 content>",...}}}}
 
         Below are instructions for each section of the essay:
 
@@ -44,10 +44,11 @@ def create_prompt(title: str, text: str) -> str:
     """
 
 
-def json_to_markdown(data: dict) -> str:
+def json_to_markdown(data: str) -> str:
     import json
 
     data = json.loads(data)
+
     markdown = ""
 
     markdown += f"# tl;dr\n\n{data['tl;dr']}\n\n"
@@ -71,6 +72,7 @@ def json_to_markdown(data: dict) -> str:
     image=summarize_image,
     secrets=[Secret.from_name("university")],
     container_idle_timeout=5,
+    keep_warm=1,
 )
 def generate_summary(title: str, text: str):
     """
@@ -86,8 +88,10 @@ def generate_summary(title: str, text: str):
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": create_prompt(title, text)}],
+            response_format={"type": "json_object"},
         )
         summary_json = response.choices[0].message.content.strip()
+        print("summary_json", summary_json)
         summary = json_to_markdown(summary_json)
         return summary
     except Exception as e:
@@ -99,6 +103,7 @@ def extract_tldr(output_text: str) -> str:
     import re
 
     """
+
     Extracts the TL;DR section from the output text.
 
     Parameters:
@@ -167,6 +172,7 @@ def create_categorize_prompt(title, text):
     image=summarize_image,
     secrets=[Secret.from_name("university")],
     container_idle_timeout=5,
+    keep_warm=1,
 )
 def categorize_text(title: str, text: str):
     import os
@@ -178,7 +184,7 @@ def categorize_text(title: str, text: str):
     try:
         tldr_text = extract_tldr(text)
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=[
                 {"role": "user", "content": create_categorize_prompt(title, tldr_text)}
             ],
@@ -194,6 +200,7 @@ def categorize_text(title: str, text: str):
     image=summarize_image,
     secrets=[Secret.from_name("university")],
     container_idle_timeout=5,
+    keep_warm=1,
 )
 def get_related_content(url: str):
     import os

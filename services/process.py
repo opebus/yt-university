@@ -20,6 +20,7 @@ volume = Volume.from_name("yt-university-cache", create_if_missing=True)
     timeout=600,
     secrets=[Secret.from_name("university")],
     volumes={DATA_DIR: volume},
+    keep_warm=1,
 )
 async def process(video_url: str, user_id: str):
     from yt_university.database import get_db_session
@@ -59,7 +60,7 @@ async def process(video_url: str, user_id: str):
         summary = generate_summary.spawn(video.title, transcription).get()
         video_data = await upsert_video(session, video.id, {"summary": summary})
 
-        category = categorize_text.spawn(video.title, transcription).get()
+        category = categorize_text.spawn(video.title, summary).get()
         video_data = await upsert_video(session, video.id, {"category": category})
 
         # related = get_related_content.spawn(video.url).get()

@@ -6,7 +6,7 @@ from yt_university.config import DATA_DIR
 from yt_university.stub import stub
 
 downloader_image = (
-    Image.debian_slim(python_version="3.11").apt_install("ffmpeg").pip_install("yt-dlp")
+    Image.debian_slim(python_version="3.10").apt_install("ffmpeg").pip_install("yt-dlp")
 )
 
 volume = Volume.from_name("yt-university-cache", create_if_missing=True)

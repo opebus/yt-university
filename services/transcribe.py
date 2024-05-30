@@ -26,7 +26,7 @@ def download_model_to_folder():
 
 
 image = (
-    Image.from_registry("nvidia/cuda:12.1.1-devel-ubuntu20.04", add_python="3.11")
+    Image.from_registry("nvidia/cuda:12.1.1-devel-ubuntu20.04", add_python="3.12")
     .apt_install("git", "ffmpeg")
     .pip_install(
         "transformers==4.39.3",
@@ -163,11 +163,7 @@ class Whisper:
         return result
 
 
-@stub.function(
-    image=image,
-    volumes={DATA_DIR: volume},
-    timeout=900,
-)
+@stub.function(image=image, volumes={DATA_DIR: volume}, timeout=900, keep_warm=1)
 def transcribe(
     audio_filepath: Path,
 ):
