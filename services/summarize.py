@@ -6,7 +6,7 @@ from yt_university.stub import stub
 
 logger = logging.getLogger(__name__)
 
-summarize_image = Image.debian_slim(python_version="3.12").pip_install(
+summarize_image = Image.debian_slim(python_version="3.10").pip_install(
     "exa_py", "openai"
 )
 

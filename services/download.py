@@ -24,8 +24,8 @@ class Downloader:
     @method()
     def run(self, url):
         video_path, thumbnail_path, meta_dict = self.get_youtube(url)
-        wav_path = self.convert_to_wav(video_path)
-        return wav_path, thumbnail_path, meta_dict
+        # wav_path = self.convert_to_wav(video_path)
+        return video_path, thumbnail_path, meta_dict
 
     def get_youtube(self, video_url):
         """

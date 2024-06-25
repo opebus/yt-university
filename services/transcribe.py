@@ -26,20 +26,20 @@ def download_model_to_folder():
 
 
 image = (
-    Image.from_registry("nvidia/cuda:12.1.1-devel-ubuntu20.04", add_python="3.12")
+    Image.from_registry("nvidia/cuda:12.4.1-devel-ubuntu22.04", add_python="3.10")
     .apt_install("git", "ffmpeg")
     .pip_install(
         "transformers==4.39.3",
-        "torch",
-        "optimum",
-        "accelerate",
-        "huggingface-hub",
-        "hf-transfer",
-        "yt-dlp",
-        "ffmpeg-python",
-        "wheel",
-        "packaging",
-        "ninja",
+        "torch==2.2.0",
+        "optimum==1.16.2",
+        "accelerate==0.26.0",
+        "huggingface-hub==0.20.1",
+        "hf-transfer==0.1.5",
+        "yt-dlp==2023.11.16",
+        "ffmpeg-python==0.2.0",
+        "wheel==0.42.0",
+        "packaging==24.0",
+        "ninja==1.11.1",
     )
     .run_commands(
         "python -m pip install flash-attn --no-build-isolation", gpu=gpu.A10G()
